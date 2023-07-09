@@ -1,0 +1,32 @@
+CC = gcc
+LEX = lex
+YACC = bison
+
+COMPILATION_FOLDER = ./bin/
+
+LEX_FILE = wordlang.l
+YACC_FILE = wordlang.y
+TARGET = $(COMPILATION_FOLDER)wordlang
+LEX_OUTPUT = $(COMPILATION_FOLDER)lex.yy.c
+YACC_OUTPUT = $(COMPILATION_FOLDER)y.tab.c
+YACC_OUTPUT_H = $(COMPILATION_FOLDER)y.tab.h
+OUTPUT_FILE = $(TARGET)
+
+all: $(TARGET)
+
+$(TARGET): $(YACC_OUTPUT) $(LEX_OUTPUT)
+	$(CC) -o $(OUTPUT_FILE) $(YACC_OUTPUT) $(LEX_OUTPUT)
+
+$(LEX_OUTPUT): $(LEX_FILE) $(YACC_OUTPUT)
+	$(LEX) -o $(LEX_OUTPUT) $(LEX_FILE)
+
+$(YACC_OUTPUT): $(YACC_FILE)
+	$(YACC) -v -o $(YACC_OUTPUT) -d $(YACC_FILE)
+
+$(shell mkdir -p $(COMPILATION_FOLDER))
+
+run:
+	$(OUTPUT_FILE)
+
+clean:
+	rm -rf $(COMPILATION_FOLDER)
