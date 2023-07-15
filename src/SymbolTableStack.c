@@ -1,0 +1,61 @@
+#include "SymbolTableStack.h"
+
+void insert_symbol_to_symbol_table_stack(SymbolTableStack **symbol_table_stack, Symbol *symbol) {
+	if ((*symbol_table_stack)->top != NULL)
+		symbol->next = (*symbol_table_stack)->top;
+	(*symbol_table_stack)->top = symbol;
+}
+
+void print_symbol_table_stack(SymbolTableStack *symbol_table_stack) {
+	while (symbol_table_stack != NULL) {
+		Symbol *current = symbol_table_stack->top;
+		while (current != NULL) {
+			print_symbol(current);
+			current = current->next;
+		}
+		symbol_table_stack = symbol_table_stack->next;
+	}
+}
+
+Symbol *find_symbol_in_symbol_table_stack(SymbolTableStack *symbol_table_stack, char *name) {
+	while (symbol_table_stack != NULL) {
+		Symbol *current = symbol_table_stack->top;
+		while (current != NULL) {
+			if (strcmp(current->name, name) == 0) {
+				return current;
+			}
+			current = current->next;
+		}
+		symbol_table_stack = symbol_table_stack->next;
+	}
+	return NULL;
+}
+
+void push_symbol_table_stack(SymbolTableStack **symbol_table_stack) {
+	SymbolTableStack *new_node = (SymbolTableStack *) malloc(sizeof(SymbolTableStack));
+	new_node->top = NULL;
+	new_node->next = *symbol_table_stack;
+	*symbol_table_stack = new_node;
+}
+
+void pop_symbol_table(SymbolTableStack **symbol_table_stack) {
+	if (*symbol_table_stack == NULL) return;
+	
+	SymbolTableStack *top_node = *symbol_table_stack;
+	*symbol_table_stack = (*symbol_table_stack)->next;
+	
+	Symbol *current = top_node->top;
+	while (current != NULL) {
+		Symbol *next = current->next;
+		free(current->name);
+		free(current);
+		current = next;
+	}
+	free(top_node);
+}
+
+void destroy_symbol_table_stack(SymbolTableStack **symbol_table_stack) {
+	while (*symbol_table_stack != NULL) {
+		pop_symbol_table(symbol_table_stack);
+	}
+}
