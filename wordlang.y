@@ -11,8 +11,6 @@ void yyerror(char *msg) {
 	fprintf(stderr, "Error: %s\n", msg);
 }
 
-char *typeToString(int type);
-
 SymbolTableStack *symbol_table_stack = NULL;
 %}
 
@@ -83,16 +81,6 @@ var_list:
 	;
 
 %%
-
-char *typeToString(int type) {
-	switch (type) {
-		case TYPE_INT:		return "int";
-		case TYPE_CHAR: 	return "char";
-		case TYPE_WORD: 	return "word";
-		case TYPE_SENTENCE:	return "sentence";
-		default:			return "unknown";
-	}
-}
 
 int main() {
 	push_symbol_table_stack(&symbol_table_stack);
