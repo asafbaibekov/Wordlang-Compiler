@@ -33,9 +33,9 @@
 "!"						{																																return OPERATOR_NOT;		}
 [a-zA-Z_][a-zA-Z0-9_]*	{	yylval.string_val 	= strdup(yytext);																						return IDENTIFIER;			}
 [0-9]+					{	yylval.int_val 		= atoi(yytext);																							return LITERAL_INTEGER;		}
-'[^']*'					{	yylval.char_val 	= yytext[0];																							return LITERAL_CHAR;		}
+'[^']?'					{	yylval.char_val 	= yytext[1];																							return LITERAL_CHAR;		}
 \"[^\"\ ]*\"			{	yylval.string_val 	= strdup(yytext);																						return LITERAL_WORD;		}
-\^[^\^]*\^				{	yylval.string_val 	= malloc(strlen(yytext) + 2); strcpy(yylval.string_val, yytext); strcat(yylval.string_val, "\n");		return LITERAL_SENTENCE;	}
+\^[^\^]*\^				{	yylval.string_val 	= strdup(yytext);																						return LITERAL_SENTENCE;	}
 \/\/.*					{	/* ignore comments */																																	}
 [ \t\n]					{	/* ignore whitespace */																																	}
 
