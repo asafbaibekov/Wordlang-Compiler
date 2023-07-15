@@ -48,6 +48,7 @@ void pop_symbol_table(SymbolTableStack **symbol_table_stack) {
 	while (current != NULL) {
 		Symbol *next = current->next;
 		free(current->name);
+		free(current->value);
 		free(current);
 		current = next;
 	}

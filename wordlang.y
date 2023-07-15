@@ -35,8 +35,8 @@ SymbolTableStack *symbol_table_stack = NULL;
 
 %type <int_val> type
 %type <symbol_val> var_list
-%type <string_val> expression
-%type <string_val> literal
+%type <symbol_val> expression
+%type <symbol_val> literal
 
 %start program
 
@@ -59,7 +59,16 @@ statement:
 
 output_statement:
 		KEYWORD_OUTPUT expression {
-			printf("Output: %s\n", $2);
+			printf("Output: ");
+			Symbol *symbol = $2;
+			switch (symbol->type) {
+				case TYPE_INT:		printf("%d", *((int *) symbol->value)); break;
+				case TYPE_CHAR: 	printf("%c", *((char *) symbol->value)); break;
+				case TYPE_WORD: 	printf("%s",  (char *) symbol->value); break;
+				case TYPE_SENTENCE: printf("%s",  (char *) symbol->value); break;
+				default: break;
+			}
+			printf("\n");
 		}
 	;
 
@@ -69,27 +78,27 @@ expression:
 
 literal:
 		LITERAL_INTEGER {
-			int size = snprintf(NULL, 0, "%d", $1);
-			char *str = (char *) malloc((size + 1) * sizeof(char));
-			if (str == NULL) yyerror("Out of memory");
-			sprintf(str, "%d", $1);
-			$$ = str;
+			int *integer = malloc(sizeof(int));
+			*integer = $1;
+			$$ = create_symbol(NULL, TYPE_CHAR, integer);;
 		}
 	|	LITERAL_CHAR {
-			$$ = strdup((char[2]){ $1 == '\'' ? '\0' : $1, '\0' });
+			char *character = malloc(sizeof(char));
+			*character = $1 == '\'' ? '\0' : $1;
+			$$ = create_symbol(NULL, TYPE_CHAR, character);
 		}
 	|	LITERAL_WORD {
 			size_t length = strlen($1);
 			memmove($1, $1 + 1, length - 2);
 			$1[length - 2] = '\0';
-			$$ = strdup($1);
+			$$ = create_symbol(NULL, TYPE_WORD, strdup($1));
 		}
 	|	LITERAL_SENTENCE {
 			int length = strlen($1);
 			memmove($1, $1 + 1, length - 2);
 			$1[length - 2] = '\n';
 			$1[length - 1] = '\0';
-			$$ = strdup($1);
+			$$ = create_symbol(NULL, TYPE_SENTENCE, strdup($1));
 		}
 	;
 
@@ -120,15 +129,6 @@ var_list:
 	;
 
 %%
-
-char *intToString(int num) {
-	int size = snprintf(NULL, 0, "%d", num);
-	char *str = (char *) malloc((size + 1) * sizeof(char));
-	if (str != NULL)
-		sprintf(str, "%d", num);
-	return str;
-}
-
 
 int main() {
 	push_symbol_table_stack(&symbol_table_stack);
