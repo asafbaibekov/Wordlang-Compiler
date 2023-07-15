@@ -80,7 +80,7 @@ literal:
 		LITERAL_INTEGER {
 			int *integer = malloc(sizeof(int));
 			*integer = $1;
-			$$ = create_symbol(NULL, TYPE_CHAR, integer);;
+			$$ = create_symbol(NULL, TYPE_INT, integer);;
 		}
 	|	LITERAL_CHAR {
 			char *character = malloc(sizeof(char));
