@@ -4,7 +4,6 @@
 
 %%
 
-"exit"					{																																return EXIT;				}
 "word"					{																																return TYPE_WORD;			}
 "sentence"				{																																return TYPE_SENTENCE;		}
 "int"					{																																return TYPE_INT;			}
