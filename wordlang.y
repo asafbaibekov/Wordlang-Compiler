@@ -30,7 +30,6 @@ void formatted_yyerror(const char *format, ...) {
 
 %union {
 	int  int_val;
-	char char_val;
 	char *string_val;
 	void *symbol_val;
 }
@@ -43,7 +42,7 @@ void formatted_yyerror(const char *format, ...) {
 %token OPERATOR_MINUS OPERATOR_PLUS OPERATOR_CONCAT OPERATOR_INDEX OPERATOR_LT OPERATOR_GT OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_NOT
 
 %token<int_val> LITERAL_INTEGER
-%token<char_val> LITERAL_CHAR
+%token<string_val> LITERAL_CHAR
 %token<string_val> LITERAL_WORD LITERAL_SENTENCE
 %token<string_val> IDENTIFIER
 
@@ -97,14 +96,18 @@ literal:
 			$$ = create_symbol(NULL, TYPE_INT, integer);;
 		}
 	|	LITERAL_CHAR {
+			if (strlen($1) > 3)
+				formatted_yyerror("Invalid character: %s", $1);
 			char *character = malloc(sizeof(char));
-			*character = $1 == '\'' ? '\0' : $1;
+			*character = $1[1] == '\'' ? '\0' : $1[1];
 			$$ = create_symbol(NULL, TYPE_CHAR, character);
 		}
 	|	LITERAL_WORD {
 			size_t length = strlen($1);
 			memmove($1, $1 + 1, length - 2);
 			$1[length - 2] = '\0';
+			if (strchr($1, ' ') != NULL)
+				formatted_yyerror("Invalid word: \"%s\"", $1);
 			$$ = create_symbol(NULL, TYPE_WORD, strdup($1));
 		}
 	|	LITERAL_SENTENCE {
