@@ -119,6 +119,7 @@ literal:
 			char *character = malloc(sizeof(char));
 			*character = $1[1] == '\'' ? '\0' : $1[1];
 			$$ = create_symbol(NULL, TYPE_CHAR, character);
+			free($1);
 		}
 	|	LITERAL_WORD {
 			size_t length = strlen($1);
@@ -127,6 +128,7 @@ literal:
 			if (strchr($1, ' ') != NULL)
 				formatted_yyerror("Invalid word: \"%s\"", $1);
 			$$ = create_symbol(NULL, TYPE_WORD, strdup($1));
+			free($1);
 		}
 	|	LITERAL_SENTENCE {
 			int length = strlen($1);
@@ -134,6 +136,7 @@ literal:
 			$1[length - 2] = '\n';
 			$1[length - 1] = '\0';
 			$$ = create_symbol(NULL, TYPE_SENTENCE, strdup($1));
+			free($1);
 		}
 	;
 
