@@ -123,7 +123,6 @@ var_declaration:
 		type var_list {
 			Symbol *symbol = $2;
 			assign_type_to_symbol(symbol, $1);
-			print_symbol(symbol);
 		}
 	;
 
