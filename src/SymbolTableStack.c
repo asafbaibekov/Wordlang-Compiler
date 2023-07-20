@@ -1,9 +1,12 @@
 #include "SymbolTableStack.h"
 
 void insert_symbol_to_symbol_table_stack(SymbolTableStack **symbol_table_stack, Symbol *symbol) {
-	if ((*symbol_table_stack)->top != NULL)
-		symbol->next = (*symbol_table_stack)->top;
-	(*symbol_table_stack)->top = symbol;
+	while (symbol != NULL) {
+		Symbol *new_symbol = copy_symbol(symbol);
+		new_symbol->next = (*symbol_table_stack)->top;
+		(*symbol_table_stack)->top = new_symbol;
+		symbol = symbol->next;
+	}
 }
 
 void print_symbol_table_stack(SymbolTableStack *symbol_table_stack) {
@@ -18,15 +21,15 @@ void print_symbol_table_stack(SymbolTableStack *symbol_table_stack) {
 }
 
 Symbol *find_symbol_in_symbol_table_stack(SymbolTableStack *symbol_table_stack, char *name) {
-	while (symbol_table_stack != NULL) {
-		Symbol *current = symbol_table_stack->top;
-		while (current != NULL) {
-			if (strcmp(current->name, name) == 0) {
-				return current;
-			}
-			current = current->next;
+	SymbolTableStack *currentStack = symbol_table_stack;
+	while (currentStack != NULL) {
+		Symbol *currentSymbol = currentStack->top;
+		while (currentSymbol != NULL) {
+			if (strcmp(currentSymbol->name, name) == 0)
+				return currentSymbol;
+			currentSymbol = currentSymbol->next;
 		}
-		symbol_table_stack = symbol_table_stack->next;
+		currentStack = currentStack->next;
 	}
 	return NULL;
 }
