@@ -145,6 +145,8 @@ identifier:
 			Symbol *symbol = find_symbol_in_symbol_table_stack(symbol_table_stack, $1);
 			if (symbol == NULL)
 				formatted_yyerror("Variable %s not declared", $1);
+			if (strlen(symbol->name) > 32)
+				formatted_yyerror("Variable name too long: %s\n%s", symbol->name, "Should be less than or equal to 32 characters");
 			$$ = symbol;
 		}
 	;
