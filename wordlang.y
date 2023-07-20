@@ -50,6 +50,7 @@ void formatted_yyerror(const char *format, ...) {
 %type <symbol_val> var_list
 %type <symbol_val> expression
 %type <symbol_val> literal
+%type <symbol_val> identifier
 
 %start program
 
@@ -67,9 +68,25 @@ statement_list:
 
 statement:
 		var_declaration SIGN_SEMICOLON
+	|	assignment_statement SIGN_SEMICOLON
 	|	output_statement SIGN_SEMICOLON
 	;
 
+assignment_statement:
+		IDENTIFIER SIGN_ASSIGN expression {
+			Symbol *symbol_in_table = find_symbol_in_symbol_table_stack(symbol_table_stack, $1);
+			if (symbol_in_table == NULL)
+				formatted_yyerror("Variable %s not declared", $1);
+
+			Symbol *literal_symbol = $3;
+			if (symbol_in_table->type != literal_symbol->type)
+				formatted_yyerror("Type mismatch");
+
+			symbol_in_table->value = literal_symbol->value;
+			free_symbol(literal_symbol);
+		}
+	;
+	
 output_statement:
 		KEYWORD_OUTPUT expression {
 			printf("Output: ");
@@ -87,6 +104,7 @@ output_statement:
 
 expression:
 		literal
+	|	identifier
 	;
 
 literal:
@@ -119,10 +137,21 @@ literal:
 		}
 	;
 
+identifier:
+		IDENTIFIER {
+			Symbol *symbol = find_symbol_in_symbol_table_stack(symbol_table_stack, $1);
+			if (symbol == NULL)
+				formatted_yyerror("Variable %s not declared", $1);
+			$$ = symbol;
+		}
+	;
+
 var_declaration:
 		type var_list {
 			Symbol *symbol = $2;
 			assign_type_to_symbol(symbol, $1);
+			insert_symbol_to_symbol_table_stack(&symbol_table_stack, symbol);
+			free_symbol(symbol);
 		}
 	;
 

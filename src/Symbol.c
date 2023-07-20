@@ -10,10 +10,22 @@ Symbol *create_symbol(char *name, int type, void *value) {
 	return symbol;
 }
 
+Symbol *copy_symbol(Symbol *symbol) {
+	if (symbol == NULL) return NULL;
+	Symbol *new_symbol = create_symbol(symbol->name, symbol->type, symbol->value);
+	new_symbol->next = NULL;
+	return new_symbol;
+}
+
 void assign_type_to_symbol(Symbol *symbol, int type) {
 	if (symbol == NULL) return;
 	symbol->type = type;
 	assign_type_to_symbol(symbol->next, type);
+}
+
+void assign_value_to_symbol(Symbol *symbol, void *value) {
+	if (symbol == NULL) return;
+	symbol->value = value;
 }
 
 void print_symbol(Symbol *symbol) {
@@ -46,4 +58,10 @@ void print_symbol(Symbol *symbol) {
 			default:			printf("unknown"					);	break;
 		}
 	printf(";\n");
+}
+
+void free_symbol(Symbol *symbol) {
+	if (symbol == NULL) return;
+	free(symbol->name);
+	free(symbol);
 }

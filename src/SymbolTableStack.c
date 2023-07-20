@@ -2,9 +2,17 @@
 
 void insert_symbol_to_symbol_table_stack(SymbolTableStack **symbol_table_stack, Symbol *symbol) {
 	while (symbol != NULL) {
-		Symbol *new_symbol = copy_symbol(symbol);
-		new_symbol->next = (*symbol_table_stack)->top;
-		(*symbol_table_stack)->top = new_symbol;
+		Symbol *existing_symbol = find_symbol_in_symbol_table_stack(*symbol_table_stack, symbol->name);
+		if (existing_symbol != NULL) {
+			printf("Error: Variable %s already exists in the symbol table\n", symbol->name);
+			destroy_symbol_table_stack(symbol_table_stack);
+			free_symbol(symbol);
+			exit(1);
+		} else {
+			Symbol *new_symbol = copy_symbol(symbol);
+			new_symbol->next = (*symbol_table_stack)->top;
+			(*symbol_table_stack)->top = new_symbol;
+		}
 		symbol = symbol->next;
 	}
 }
