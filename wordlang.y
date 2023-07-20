@@ -2,16 +2,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include "../src/SymbolTableStack.h"
 #include "../src/Symbol.h"
 
 extern int yylex();
 
+SymbolTableStack *symbol_table_stack = NULL;
+
 void yyerror(char *msg) {
 	fprintf(stderr, "Error: %s\n", msg);
+	destroy_symbol_table_stack(&symbol_table_stack);
 }
 
-SymbolTableStack *symbol_table_stack = NULL;
+void formatted_yyerror(const char *format, ...) {
+	va_list args;
+	va_start(args, format);
+	size_t len = vsnprintf(NULL, 0, format, args);
+	char *msg = (char *) malloc((len + 1) * sizeof(char));
+	vsprintf(msg, format, args);
+	va_end(args);
+	yyerror(msg);
+	free(msg);
+	exit(1);
+}
 %}
 
 %union {
