@@ -18,11 +18,7 @@ void assign_type_to_symbol(Symbol *symbol, int type) {
 
 void print_symbol(Symbol *symbol) {
 	if (symbol == NULL) return;
-
-	if (symbol->next != NULL) {
-		print_symbol(symbol->next);
-	}
-
+	
 	switch (symbol->type) {
 		case TYPE_INT:		printf("int ");			break;
 		case TYPE_CHAR:		printf("char ");		break;
