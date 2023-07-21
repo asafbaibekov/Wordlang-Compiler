@@ -21,6 +21,8 @@ void assign_type_to_symbol(Symbol *symbol, int type);
 
 void assign_value_to_symbol(Symbol *symbol, void *value);
 
+char *get_symbol_type(Symbol *symbol);
+
 void print_symbol(Symbol *symbol);
 
 void free_symbol(Symbol *symbol);

@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include "../src/SymbolTableStack.h"
 #include "../src/Symbol.h"
+#include "../src/SymbolTableStack.h"
+#include "../src/SymbolOperations.h"
 
 extern int yylex();
 
@@ -49,8 +50,13 @@ void formatted_yyerror(const char *format, ...) {
 %type <int_val> type
 %type <symbol_val> var_list
 %type <symbol_val> expression
+%type <symbol_val> unary_expression
+%type <symbol_val> binary_expression
 %type <symbol_val> literal
 %type <symbol_val> identifier
+
+%left OPERATOR_PLUS
+%left OPERATOR_MINUS
 
 %start program
 
@@ -105,6 +111,44 @@ output_statement:
 expression:
 		literal
 	|	identifier
+	|	unary_expression
+	|	binary_expression
+	;
+
+unary_expression:
+		OPERATOR_MINUS expression {
+			Symbol *symbol = $2;
+			$$ = perform_unary_operation(OPERATOR_MINUS, symbol);
+			if (symbol->name == NULL)
+				free_symbol(symbol);
+		}
+	;
+
+binary_expression:
+		expression OPERATOR_MINUS expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_MINUS, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s - %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
+	|	expression OPERATOR_PLUS expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_PLUS, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s + %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
 	;
 
 literal:

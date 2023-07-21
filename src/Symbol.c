@@ -28,6 +28,17 @@ void assign_value_to_symbol(Symbol *symbol, void *value) {
 	symbol->value = value;
 }
 
+char *get_symbol_type(Symbol *symbol) {
+	if (symbol == NULL) return NULL;
+	switch (symbol->type) {
+		case TYPE_INT:		return "int";
+		case TYPE_CHAR:		return "char";
+		case TYPE_WORD:		return "word";
+		case TYPE_SENTENCE:	return "sentence";
+		default:			return "no_type";
+	}
+}
+
 void print_symbol(Symbol *symbol) {
 	if (symbol == NULL) return;
 	
