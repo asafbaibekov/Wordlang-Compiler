@@ -59,6 +59,7 @@ void formatted_yyerror(const char *format, ...) {
 
 %left OPERATOR_PLUS
 %left OPERATOR_MINUS
+%left OPERATOR_CONCAT
 
 %start program
 
