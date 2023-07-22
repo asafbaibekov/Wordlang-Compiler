@@ -17,6 +17,29 @@ static void removeLastCharacter(char **str) {
 	*str = newStr;
 }
 
+static char *readline() {
+	size_t size = 64;
+	char *str = malloc(size);
+	if (!str) { printf("Memory allocation failed\n"); return NULL; }
+	size_t i = 0;
+	char c;
+	while ((c = getchar()) != '\n' && c != EOF) {
+		if (i == size) {
+			size += 64; 
+			char *new_str = realloc(str, size);
+			if (!new_str) { printf("Memory allocation failed\n"); free(str); return NULL; }
+			free(str);
+			str = new_str;
+		}
+		str[i++] = c;
+	}
+	str[i] = '\0';
+	char *new_str = realloc(str, i + 1);
+	if (new_str)
+		str = new_str;
+	return str;
+}
+
 Symbol *perform_unary_minus_operation(Symbol *symbol) {
 	if (symbol->type == TYPE_INT) {
 		int *integer = malloc(sizeof(int));
@@ -194,6 +217,42 @@ Symbol *perform_binary_concat_operation(Symbol *symbol1, Symbol *symbol2) {
 		return create_symbol(NULL, TYPE_SENTENCE, sentence);
 	}
 	return NULL;
+}
+
+void perform_input_operation(Symbol **symbol) {
+	switch ((*symbol)->type) {
+		case TYPE_INT: {
+			int *integer = malloc(sizeof(int));
+			fscanf(stdin, "%d", integer);
+			(*symbol)->value = integer;
+			break;
+		}
+		case TYPE_CHAR: {
+			char *character = malloc(sizeof(char));
+			fscanf(stdin, "%c", character);
+			(*symbol)->value = character;
+			break;
+		}
+		case TYPE_WORD: {
+			char *word = readline();
+			if (strchr(word, ' ') != NULL) {
+				printf("Error: Word cannot contain space character\n");
+				free(word);
+				free_symbol(*symbol);
+				exit(1);
+			}
+			(*symbol)->value = word;
+			break;
+		}
+		case TYPE_SENTENCE: {
+			char *sentence = readline();
+			sentence = realloc(sentence, sizeof(char) * (strlen(sentence) + 2));
+			sentence[strlen(sentence)] = '\n';
+			sentence[strlen(sentence) + 1] = '\0';
+			(*symbol)->value = sentence;
+			break;
+		}
+	}
 }
 
 Symbol *perform_unary_operation(int OPERATION, Symbol *symbol) {

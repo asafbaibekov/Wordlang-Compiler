@@ -9,6 +9,8 @@
 
 extern int yylex();
 
+extern FILE *yyin;
+
 SymbolTableStack *symbol_table_stack = NULL;
 
 void yyerror(char *msg) {
@@ -76,6 +78,7 @@ statement:
 		var_declaration SIGN_SEMICOLON
 	|	assignment_statement SIGN_SEMICOLON
 	|	output_statement SIGN_SEMICOLON
+	|	input_statement SIGN_SEMICOLON
 	;
 
 assignment_statement:
@@ -93,6 +96,19 @@ assignment_statement:
 		}
 	;
 	
+input_statement:
+	KEYWORD_INPUT expression IDENTIFIER {
+		Symbol *symbol_in_table = find_symbol_in_symbol_table_stack(symbol_table_stack, $3);
+		if (symbol_in_table == NULL)
+			formatted_yyerror("Variable %s not declared", $3);
+		Symbol *symbol = $2;
+		print_symbol_value(symbol);
+		if (symbol->name == NULL)
+			free_symbol(symbol);
+		perform_input_operation(&symbol_in_table);
+	}
+	;
+
 output_statement:
 		KEYWORD_OUTPUT expression {
 			printf("Output: ");
@@ -230,8 +246,14 @@ var_list:
 
 %%
 
-int main() {
+
+int main(int argc, const char *argv[]) {
 	push_symbol_table_stack(&symbol_table_stack);
+	if (argc > 1) {
+		FILE *input_file = fopen(argv[1], "r");
+		if (input_file == NULL) { perror("Error opening file"); return 1; }
+		yyin = input_file;
+	}
 	yyparse();
 	destroy_symbol_table_stack(&symbol_table_stack);
 	return 0;
