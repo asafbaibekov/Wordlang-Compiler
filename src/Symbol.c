@@ -39,6 +39,17 @@ char *get_symbol_type(Symbol *symbol) {
 	}
 }
 
+void print_symbol_value(Symbol *symbol) {
+	if (symbol == NULL) return;
+	switch (symbol->type) {
+		case TYPE_INT:		printf("%d", *((int *) symbol->value)); break;
+		case TYPE_CHAR: 	printf("%c", *((char *) symbol->value)); break;
+		case TYPE_WORD: 	printf("%s",  (char *) symbol->value); break;
+		case TYPE_SENTENCE: printf("%s",  (char *) symbol->value); break;
+		default: break;
+	}
+}
+
 void print_symbol(Symbol *symbol) {
 	if (symbol == NULL) return;
 	

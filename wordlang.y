@@ -97,13 +97,7 @@ output_statement:
 		KEYWORD_OUTPUT expression {
 			printf("Output: ");
 			Symbol *symbol = $2;
-			switch (symbol->type) {
-				case TYPE_INT:		printf("%d", *((int *) symbol->value)); break;
-				case TYPE_CHAR: 	printf("%c", *((char *) symbol->value)); break;
-				case TYPE_WORD: 	printf("%s",  (char *) symbol->value); break;
-				case TYPE_SENTENCE: printf("%s",  (char *) symbol->value); break;
-				default: break;
-			}
+			print_symbol_value(symbol);
 			printf("\n");
 		}
 	;
