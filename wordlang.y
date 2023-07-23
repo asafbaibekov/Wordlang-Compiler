@@ -197,8 +197,10 @@ literal:
 			$$ = create_symbol(NULL, TYPE_INT, integer);;
 		}
 	|	LITERAL_CHAR {
-			if (strlen($1) > 3)
+			if (strlen($1) > 3) {
+				free($1);
 				formatted_yyerror("Invalid character: %s", $1);
+			}
 			char *character = malloc(sizeof(char));
 			*character = $1[1] == '\'' ? '\0' : $1[1];
 			$$ = create_symbol(NULL, TYPE_CHAR, character);
@@ -208,8 +210,10 @@ literal:
 			size_t length = strlen($1);
 			memmove($1, $1 + 1, length - 2);
 			$1[length - 2] = '\0';
-			if (strchr($1, ' ') != NULL)
+			if (strchr($1, ' ') != NULL) {
+				free($1);
 				formatted_yyerror("Invalid word: \"%s\"", $1);
+			}
 			$$ = create_symbol(NULL, TYPE_WORD, strdup($1));
 			free($1);
 		}
