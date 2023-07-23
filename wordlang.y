@@ -60,6 +60,7 @@ void formatted_yyerror(const char *format, ...) {
 %left OPERATOR_PLUS
 %left OPERATOR_MINUS
 %left OPERATOR_CONCAT
+%left OPERATOR_INDEX
 
 %start program
 
@@ -166,6 +167,18 @@ binary_expression:
 			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_CONCAT, symbol2);
 			if (symbol3 == NULL)
 				formatted_yyerror("Invalid operation on types %s # %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
+	|	expression OPERATOR_INDEX expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_INDEX, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s : %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
 			$$ = symbol3;
 			if (symbol1->name == NULL)
 				free_symbol(symbol1);
