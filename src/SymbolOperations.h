@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Symbol.h"
-#include "../bin/y.tab.h"
+#include "../wordlang.h"
 
 Symbol *perform_unary_operation(int OPERATION, Symbol *symbol);
 

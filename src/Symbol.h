@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../bin/y.tab.h"
+#include "../wordlang.h"
 
 typedef struct Symbol {
 	char *name;
