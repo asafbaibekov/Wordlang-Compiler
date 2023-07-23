@@ -35,6 +35,7 @@ char *get_symbol_type(Symbol *symbol) {
 		case TYPE_CHAR:		return "char";
 		case TYPE_WORD:		return "word";
 		case TYPE_SENTENCE:	return "sentence";
+		case TYPE_BOOLEAN:	return "boolean";
 		default:			return "no_type";
 	}
 }
@@ -46,6 +47,7 @@ void print_symbol_value(Symbol *symbol) {
 		case TYPE_CHAR: 	printf("%c", *((char *) symbol->value)); break;
 		case TYPE_WORD: 	printf("%s",  (char *) symbol->value); break;
 		case TYPE_SENTENCE: printf("%s",  (char *) symbol->value); break;
+		case TYPE_BOOLEAN:	printf("%s", *(bool *) symbol->value ? "true" : "false"); break;
 		default: break;
 	}
 }
