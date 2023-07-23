@@ -125,6 +125,9 @@ expression:
 	|	identifier
 	|	unary_expression
 	|	binary_expression
+	|	SIGN_LPAREN expression SIGN_RPAREN {
+			$$ = $2;
+		}
 	;
 
 unary_expression:
