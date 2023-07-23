@@ -379,6 +379,14 @@ Symbol *perform_unary_operation(int OPERATION, Symbol *symbol) {
 
 Symbol *perform_binary_operation(Symbol *symbol1, int OPERATION, Symbol *symbol2) {
 	if (symbol1 == NULL || symbol2 == NULL) return NULL;
+	if (symbol1->value == NULL || symbol2->value == NULL) {
+		if (symbol1->value == NULL)
+			printf("Error: identifier %s has no value\n", symbol1->name);
+		if (symbol2->value == NULL)
+			printf("Error: identifier %s has no value\n", symbol2->name);
+		return NULL;
+	}
+
 	switch (OPERATION) {
 		case OPERATOR_MINUS:
 			return perform_binary_minus_operation(symbol1, symbol2);
