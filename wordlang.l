@@ -30,6 +30,7 @@
 "<="					{											return OPERATOR_LE;			}
 ">="					{											return OPERATOR_GE;			}
 "=="					{											return OPERATOR_EQ;			}
+"!="					{											return OPERATOR_NE;			}
 "!"						{											return OPERATOR_NOT;		}
 [a-zA-Z_][a-zA-Z0-9_]*	{	yylval.string_val	= strdup(yytext);	return IDENTIFIER;			}
 [0-9]+					{	yylval.int_val		= atoi(yytext);		return LITERAL_INTEGER;		}

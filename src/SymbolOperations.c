@@ -424,6 +424,23 @@ Symbol *perform_binary_eq_operation(Symbol *symbol1, Symbol *symbol2) {
 	return create_symbol(NULL, TYPE_BOOLEAN, boolean);
 }
 
+Symbol *perform_binary_ne_operation(Symbol *symbol1, Symbol *symbol2) {
+	bool *boolean = malloc(sizeof(bool));
+	if (symbol1->type == TYPE_INT && symbol2->type == TYPE_INT)
+		*boolean = *((int *) symbol1->value) != *((int *) symbol2->value);
+	else if (symbol1->type == TYPE_CHAR && symbol2->type == TYPE_CHAR)
+		*boolean = *((char *) symbol1->value) != *((char *) symbol2->value);
+	else if (symbol1->type == TYPE_WORD && symbol2->type == TYPE_WORD)
+		*boolean = strcmp((char *) symbol1->value, (char *) symbol2->value) != 0;
+	else if (symbol1->type == TYPE_SENTENCE && symbol2->type == TYPE_SENTENCE)
+		*boolean = strcmp((char *) symbol1->value, (char *) symbol2->value) != 0;
+	else {
+		free(boolean);
+		return NULL;
+	}
+	return create_symbol(NULL, TYPE_BOOLEAN, boolean);
+}
+
 void perform_input_operation(Symbol **symbol) {
 	switch ((*symbol)->type) {
 		case TYPE_INT: {
@@ -501,6 +518,8 @@ Symbol *perform_binary_operation(Symbol *symbol1, int OPERATION, Symbol *symbol2
 			return perform_binary_ge_operation(symbol1, symbol2);
 		case OPERATOR_EQ:
 			return perform_binary_eq_operation(symbol1, symbol2);
+		case OPERATOR_NE:
+			return perform_binary_ne_operation(symbol1, symbol2);
 		default:
 			return NULL;
 	}

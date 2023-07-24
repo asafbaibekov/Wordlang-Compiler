@@ -42,7 +42,7 @@ void formatted_yyerror(const char *format, ...) {
 %token SIGN_SEMICOLON SIGN_COMMA
 %token KEYWORD_IF KEYWORD_ELSE KEYWORD_WHILE KEYWORD_LOOP KEYWORD_INPUT KEYWORD_OUTPUT
 %token SIGN_ASSIGN SIGN_LPAREN SIGN_RPAREN SIGN_LBRACE SIGN_RBRACE
-%token OPERATOR_MINUS OPERATOR_PLUS OPERATOR_CONCAT OPERATOR_INDEX OPERATOR_LT OPERATOR_GT OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_NOT
+%token OPERATOR_MINUS OPERATOR_PLUS OPERATOR_CONCAT OPERATOR_INDEX OPERATOR_LT OPERATOR_GT OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_NE OPERATOR_NOT
 
 %token<int_val> LITERAL_INTEGER
 %token<string_val> LITERAL_CHAR
@@ -248,6 +248,18 @@ binary_expression:
 			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_EQ, symbol2);
 			if (symbol3 == NULL)
 				formatted_yyerror("Invalid operation on types %s == %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
+	|	expression OPERATOR_NE expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_NE, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s != %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
 			$$ = symbol3;
 			if (symbol1->name == NULL)
 				free_symbol(symbol1);
