@@ -117,6 +117,14 @@ Symbol *perform_unary_minus_operation(Symbol *symbol) {
 	return NULL;
 }
 
+Symbol *perform_unary_not_operation(Symbol *symbol) {
+	if (symbol->type != TYPE_BOOLEAN) 
+		return NULL;
+	bool *boolean = malloc(sizeof(bool));
+	*boolean = !(*((bool *) symbol->value));
+	return create_symbol(NULL, TYPE_BOOLEAN, boolean);
+}
+
 Symbol *perform_binary_minus_operation(Symbol *symbol1, Symbol *symbol2) {
 	if (symbol1->type == TYPE_INT && symbol2->type == TYPE_INT) {
 		int *integer = malloc(sizeof(int));
@@ -457,6 +465,8 @@ Symbol *perform_unary_operation(int OPERATION, Symbol *symbol) {
 	switch (OPERATION) {
 		case OPERATOR_MINUS:
 			return perform_unary_minus_operation(symbol);
+		case OPERATOR_NOT:
+			return perform_unary_not_operation(symbol);
 		default:
 			return NULL;
 	}

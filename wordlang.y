@@ -137,6 +137,12 @@ unary_expression:
 			if (symbol->name == NULL)
 				free_symbol(symbol);
 		}
+	|	OPERATOR_NOT expression {
+			Symbol *symbol = $2;
+			$$ = perform_unary_operation(OPERATOR_NOT, symbol);
+			if (symbol->name == NULL)
+				free_symbol(symbol);
+		}
 	;
 
 binary_expression:
