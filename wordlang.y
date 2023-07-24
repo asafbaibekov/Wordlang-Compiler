@@ -188,6 +188,66 @@ binary_expression:
 			if (symbol2->name == NULL)
 				free_symbol(symbol2);
 		}
+	|	expression OPERATOR_LT expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_LT, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s < %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
+	|	expression OPERATOR_LE expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_LE, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s <= %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
+	|	expression OPERATOR_GT expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_GT, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s > %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
+	|	expression OPERATOR_GE expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_GE, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s >= %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
+	|	expression OPERATOR_EQ expression {
+			Symbol *symbol1 = $1;
+			Symbol *symbol2 = $3;
+			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_EQ, symbol2);
+			if (symbol3 == NULL)
+				formatted_yyerror("Invalid operation on types %s == %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
+			$$ = symbol3;
+			if (symbol1->name == NULL)
+				free_symbol(symbol1);
+			if (symbol2->name == NULL)
+				free_symbol(symbol2);
+		}
 	;
 
 literal:
