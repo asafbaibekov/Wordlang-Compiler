@@ -108,16 +108,16 @@ assignment_statement:
 	;
 	
 input_statement:
-	KEYWORD_INPUT expression IDENTIFIER {
-		Symbol *symbol_in_table = find_symbol_in_symbol_table_stack(symbol_table_stack, $3);
-		if (symbol_in_table == NULL)
-			formatted_yyerror("Variable %s not declared", $3);
-		Symbol *symbol = $2;
-		print_symbol_value(symbol);
-		if (symbol->name == NULL)
-			free_symbol(symbol);
-		perform_input_operation(&symbol_in_table);
-	}
+		KEYWORD_INPUT expression IDENTIFIER {
+			Symbol *symbol_in_table = find_symbol_in_symbol_table_stack(symbol_table_stack, $3);
+			if (symbol_in_table == NULL)
+				formatted_yyerror("Variable %s not declared", $3);
+			Symbol *symbol = $2;
+			print_symbol_value(symbol);
+			if (symbol->name == NULL)
+				free_symbol(symbol);
+			perform_input_operation(&symbol_in_table);
+		}
 	;
 
 output_statement:
