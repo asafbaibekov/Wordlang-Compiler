@@ -77,10 +77,19 @@ statement_list:
 	;
 
 statement:
-		var_declaration SIGN_SEMICOLON
+		declaration_statement SIGN_SEMICOLON
 	|	assignment_statement SIGN_SEMICOLON
 	|	output_statement SIGN_SEMICOLON
 	|	input_statement SIGN_SEMICOLON
+	;
+
+declaration_statement:
+		type var_list {
+			Symbol *symbol = $2;
+			assign_type_to_symbol(symbol, $1);
+			insert_symbol_to_symbol_table_stack(&symbol_table_stack, symbol);
+			free_symbol(symbol);
+		}
 	;
 
 assignment_statement:
@@ -313,15 +322,6 @@ identifier:
 			if (strlen(symbol->name) > 32)
 				formatted_yyerror("Variable name too long: %s\n%s", symbol->name, "Should be less than or equal to 32 characters");
 			$$ = symbol;
-		}
-	;
-
-var_declaration:
-		type var_list {
-			Symbol *symbol = $2;
-			assign_type_to_symbol(symbol, $1);
-			insert_symbol_to_symbol_table_stack(&symbol_table_stack, symbol);
-			free_symbol(symbol);
 		}
 	;
 
