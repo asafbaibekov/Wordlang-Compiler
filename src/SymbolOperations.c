@@ -205,10 +205,9 @@ Symbol *perform_binary_concat_operation(Symbol *symbol1, Symbol *symbol2) {
 		char *sentence1 = strdup((char *) symbol1->value);
 		char *sentence2 = (char *) symbol2->value;
 		removeLastCharacter(&sentence1);
-		char *sentence = malloc(sizeof(char) * (strlen(sentence1) + strlen(sentence2) + 2));
+		char *sentence = malloc(sizeof(char) * (strlen(sentence1) + strlen(sentence2) + 1));
 		strcpy(sentence, sentence1);
 		strcat(sentence, sentence2);
-		sentence[strlen(sentence1) + strlen(sentence2)] = '\n';
 		sentence[strlen(sentence1) + strlen(sentence2) + 1] = '\0';
 		free(sentence1);
 		return create_symbol(NULL, TYPE_SENTENCE, sentence);
@@ -283,12 +282,12 @@ Symbol *perform_binary_concat_operation(Symbol *symbol1, Symbol *symbol2) {
 		char *sentence1 = strdup((char *) symbol1->value);
 		char *word2 = (char *) symbol2->value;
 		removeLastCharacter(&sentence1);
-		// end the result sentence with a \n
-		char *sentence = malloc(sizeof(char) * (strlen(sentence1) + strlen(word2) + 2));
+		char *sentence = malloc(sizeof(char) * (strlen(sentence1) + strlen(word2) + 3));
 		strcpy(sentence, sentence1);
+		strcat(sentence, " ");
 		strcat(sentence, word2);
-		sentence[strlen(sentence1) + strlen(word2)] = '\n';
-		sentence[strlen(sentence1) + strlen(word2) + 1] = '\0';
+		sentence[strlen(sentence1) + strlen(word2) + 1] = '\n';
+		sentence[strlen(sentence1) + strlen(word2) + 2] = '\0';
 		free(sentence1);
 		return create_symbol(NULL, TYPE_SENTENCE, sentence);
 	}
