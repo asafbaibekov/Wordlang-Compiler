@@ -52,6 +52,12 @@ void print_symbol_value(Symbol *symbol) {
 	}
 }
 
+void print_symbol_list(Symbol *symbol) {
+	if (symbol == NULL) return;
+	print_symbol_list(symbol->next);
+	print_symbol(symbol);
+}
+
 void print_symbol(Symbol *symbol) {
 	if (symbol == NULL) return;
 	

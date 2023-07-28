@@ -6,11 +6,11 @@
 #include "Symbol.h"
 
 typedef struct SymbolTableStack {
-	Symbol *top;
+	Symbol *head;
 	struct SymbolTableStack *next;
 } SymbolTableStack;
 
-void insert_symbol_to_symbol_table_stack(SymbolTableStack **symbol_table_stack, Symbol *symbol);
+void insert_symbol_to_symbol_table_stack(SymbolTableStack *symbol_table_stack, Symbol *symbol);
 
 void print_symbol_table_stack(SymbolTableStack *symbol_table_stack);
 

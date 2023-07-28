@@ -5,7 +5,8 @@
 #include <stdarg.h>
 #include "../src/Symbol.h"
 #include "../src/SymbolTableStack.h"
-#include "../src/SymbolOperations.h"
+#include "../src/Statements/Statement.h"
+#include "../src/Expressions/Expression.h"
 
 extern int yylex();
 
@@ -35,6 +36,8 @@ void formatted_yyerror(const char *format, ...) {
 	int  int_val;
 	char *string_val;
 	void *symbol_val;
+	void *statement_val;
+	void *expression_val;
 }
 
 %token TYPE_INT TYPE_CHAR TYPE_WORD TYPE_SENTENCE TYPE_BOOLEAN
@@ -51,229 +54,170 @@ void formatted_yyerror(const char *format, ...) {
 
 %type <int_val> type
 %type <symbol_val> var_list
-%type <symbol_val> expression
-%type <symbol_val> unary_expression
-%type <symbol_val> binary_expression
-%type <symbol_val> literal
-%type <symbol_val> identifier
+
+%type <expression_val> expression
+%type <expression_val> literal
+%type <expression_val> identifier
+%type <expression_val> unary_expression
+%type <expression_val> binary_expression
+%type <expression_val> parentheses_expression
+
+%type <statement_val> statement
+%type <statement_val> statement_list
+%type <statement_val> declaration_statement
+%type <statement_val> assignment_statement
+%type <statement_val> input_statement
+%type <statement_val> output_statement
 
 %left OPERATOR_PLUS
 %left OPERATOR_MINUS
 %left OPERATOR_CONCAT
 %left OPERATOR_INDEX
+%left OPERATOR_LT
+%left OPERATOR_LE
+%left OPERATOR_GT
+%left OPERATOR_GE
+%left OPERATOR_EQ
+%left OPERATOR_NE
+%left OPERATOR_NOT
 
 %start program
 
 %%
 
-program: 
+program:
 		/* Empty program */
-	|	statement_list
+	|	statement_list {
+			execute_statement_list($1);
+		}
 	;
 
 statement_list:
-		statement
-	|	statement_list statement
+		statement {
+			$$ = $1;
+		}
+	|	statement_list statement {
+			Statement *statement_list = $2;
+			statement_list->next = $1;
+			$$ = statement_list;
+		}
 	;
 
 statement:
-		declaration_statement SIGN_SEMICOLON
-	|	assignment_statement SIGN_SEMICOLON
-	|	output_statement SIGN_SEMICOLON
-	|	input_statement SIGN_SEMICOLON
+		declaration_statement SIGN_SEMICOLON {
+			$$ = $1;
+		}
+	|	assignment_statement SIGN_SEMICOLON {
+			$$ = $1;
+		}
+	|	output_statement SIGN_SEMICOLON {
+			$$ = $1;
+		}
+	|	input_statement SIGN_SEMICOLON {
+			$$ = $1;
+		}
 	;
 
 declaration_statement:
 		type var_list {
+			int type = $1;
 			Symbol *symbol = $2;
-			assign_type_to_symbol(symbol, $1);
-			insert_symbol_to_symbol_table_stack(&symbol_table_stack, symbol);
-			free_symbol(symbol);
+			DeclarationStatement *declaration_statement = create_declaration_statement(&symbol_table_stack, symbol, type);
+			$$ = create_statement(DECLARATION_STATEMENT, declaration_statement);
 		}
 	;
 
 assignment_statement:
 		IDENTIFIER SIGN_ASSIGN expression {
-			Symbol *symbol_in_table = find_symbol_in_symbol_table_stack(symbol_table_stack, $1);
-			if (symbol_in_table == NULL)
-				formatted_yyerror("Variable %s not declared", $1);
-
-			Symbol *literal_symbol = $3;
-			if (symbol_in_table->type != literal_symbol->type)
-				formatted_yyerror("Type mismatch");
-
-			symbol_in_table->value = literal_symbol->value;
-			free_symbol(literal_symbol);
+			char *identifier = $1;
+			Expression *expression = $3;
+			AssignmentStatement *assignment_statement = create_assignment_statement(symbol_table_stack, identifier, expression);
+			$$ = create_statement(ASSIGNMENT_STATEMENT, assignment_statement);
 		}
 	;
 	
 input_statement:
 		KEYWORD_INPUT expression IDENTIFIER {
-			Symbol *symbol_in_table = find_symbol_in_symbol_table_stack(symbol_table_stack, $3);
-			if (symbol_in_table == NULL)
-				formatted_yyerror("Variable %s not declared", $3);
-			Symbol *symbol = $2;
-			print_symbol_value(symbol);
-			if (symbol->name == NULL)
-				free_symbol(symbol);
-			perform_input_operation(&symbol_in_table);
+			Expression *expression = $2;
+			char *identifier = $3;
+			InputStatement *input_statement = create_input_statement(symbol_table_stack, identifier, expression);
+			$$ = create_statement(INPUT_STATEMENT, input_statement);
 		}
 	;
 
 output_statement:
 		KEYWORD_OUTPUT expression {
-			printf("Output: ");
-			Symbol *symbol = $2;
-			print_symbol_value(symbol);
-			printf("\n");
+			Expression *expression = $2;
+			OutputStatement *output_statement = create_output_statement(expression);
+			$$ = create_statement(OUTPUT_STATEMENT, output_statement);
 		}
 	;
 
 expression:
 		literal
-	|	identifier
 	|	unary_expression
 	|	binary_expression
-	|	SIGN_LPAREN expression SIGN_RPAREN {
+	|	identifier
+	|	parentheses_expression
+	;
+
+parentheses_expression:
+		SIGN_LPAREN expression SIGN_RPAREN {
 			$$ = $2;
 		}
 	;
 
 unary_expression:
 		OPERATOR_MINUS expression {
-			Symbol *symbol = $2;
-			$$ = perform_unary_operation(OPERATOR_MINUS, symbol);
-			if (symbol->name == NULL)
-				free_symbol(symbol);
+			UnaryExpression *unary_expression = create_unary_expression(OPERATOR_MINUS, $2);
+			$$ = create_expression(UNARY_EXPRESSION, unary_expression)
 		}
 	|	OPERATOR_NOT expression {
-			Symbol *symbol = $2;
-			$$ = perform_unary_operation(OPERATOR_NOT, symbol);
-			if (symbol->name == NULL)
-				free_symbol(symbol);
+			UnaryExpression *unary_expression = create_unary_expression(OPERATOR_NOT, $2);
+			$$ = create_expression(UNARY_EXPRESSION, unary_expression)
 		}
 	;
 
 binary_expression:
 		expression OPERATOR_MINUS expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_MINUS, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s - %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_MINUS, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_PLUS expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_PLUS, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s + %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_PLUS, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_CONCAT expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_CONCAT, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s # %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_CONCAT, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_INDEX expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_INDEX, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s : %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_INDEX, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_LT expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_LT, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s < %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_LT, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_LE expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_LE, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s <= %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_LE, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_GT expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_GT, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s > %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_GT, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_GE expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_GE, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s >= %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_GE, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_EQ expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_EQ, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s == %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_EQ, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	|	expression OPERATOR_NE expression {
-			Symbol *symbol1 = $1;
-			Symbol *symbol2 = $3;
-			Symbol *symbol3 = perform_binary_operation(symbol1, OPERATOR_NE, symbol2);
-			if (symbol3 == NULL)
-				formatted_yyerror("Invalid operation on types %s != %s", get_symbol_type(symbol1), get_symbol_type(symbol2));
-			$$ = symbol3;
-			if (symbol1->name == NULL)
-				free_symbol(symbol1);
-			if (symbol2->name == NULL)
-				free_symbol(symbol2);
+			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_NE, $3);
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
 		}
 	;
 
@@ -281,7 +225,8 @@ literal:
 		LITERAL_INTEGER {
 			int *integer = malloc(sizeof(int));
 			*integer = $1;
-			$$ = create_symbol(NULL, TYPE_INT, integer);;
+			LiteralExpression *literal_expression = create_literal_expression(TYPE_INT, integer);
+			$$ = create_expression(LITERAL_EXPRESSION, literal_expression);
 		}
 	|	LITERAL_CHAR {
 			if (strlen($1) > 3) {
@@ -290,7 +235,8 @@ literal:
 			}
 			char *character = malloc(sizeof(char));
 			*character = $1[1] == '\'' ? '\0' : $1[1];
-			$$ = create_symbol(NULL, TYPE_CHAR, character);
+			LiteralExpression *literal_expression = create_literal_expression(TYPE_CHAR, character);
+			$$ = create_expression(LITERAL_EXPRESSION, literal_expression);
 			free($1);
 		}
 	|	LITERAL_WORD {
@@ -301,7 +247,8 @@ literal:
 				free($1);
 				formatted_yyerror("Invalid word: \"%s\"", $1);
 			}
-			$$ = create_symbol(NULL, TYPE_WORD, strdup($1));
+			LiteralExpression *literal_expression = create_literal_expression(TYPE_WORD, strdup($1));
+			$$ = create_expression(LITERAL_EXPRESSION, literal_expression);
 			free($1);
 		}
 	|	LITERAL_SENTENCE {
@@ -309,19 +256,17 @@ literal:
 			memmove($1, $1 + 1, length - 2);
 			$1[length - 2] = '\n';
 			$1[length - 1] = '\0';
-			$$ = create_symbol(NULL, TYPE_SENTENCE, strdup($1));
+			LiteralExpression *literal_expression = create_literal_expression(TYPE_SENTENCE, strdup($1));
+			$$ = create_expression(LITERAL_EXPRESSION, literal_expression);
 			free($1);
 		}
 	;
 
 identifier:
 		IDENTIFIER {
-			Symbol *symbol = find_symbol_in_symbol_table_stack(symbol_table_stack, $1);
-			if (symbol == NULL)
-				formatted_yyerror("Variable %s not declared", $1);
-			if (strlen(symbol->name) > 32)
-				formatted_yyerror("Variable name too long: %s\n%s", symbol->name, "Should be less than or equal to 32 characters");
-			$$ = symbol;
+			char *identifier = $1;
+			IdentifierExpression *identifier_expression = create_identifier_expression(symbol_table_stack, identifier);
+			$$ = create_expression(IDENTIFIER_EXPRESSION, identifier_expression);
 		}
 	;
 
