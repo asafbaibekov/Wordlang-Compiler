@@ -260,7 +260,8 @@ Symbol *perform_binary_concat_operation(Symbol *symbol1, Symbol *symbol2) {
 	else if (symbol1->type == TYPE_SENTENCE && symbol2->type == TYPE_CHAR) {
 		char *sentence1 = strdup((char *) symbol1->value);
 		char character2 = *((char *) symbol2->value);
-		removeLastCharacter(&sentence1);
+		if (character2 != '\0')
+			removeLastCharacter(&sentence1);
 		char *sentence = malloc(sizeof(char) * (strlen(sentence1) + 3));
 		strcpy(sentence, sentence1);
 		sentence[strlen(sentence1)] = character2;
