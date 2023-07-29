@@ -18,7 +18,7 @@ Symbol *find_symbol_in_symbol_table_stack(SymbolTableStack *symbol_table_stack, 
 
 void push_symbol_table_stack(SymbolTableStack **symbol_table_stack);
 
-void pop_symbol_table(SymbolTableStack **symbol_table_stack);
+void pop_symbol_table_stack(SymbolTableStack **symbol_table_stack);
 
 void destroy_symbol_table_stack(SymbolTableStack **symbol_table_stack);
 

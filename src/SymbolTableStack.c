@@ -45,7 +45,7 @@ void push_symbol_table_stack(SymbolTableStack **symbol_table_stack) {
 	*symbol_table_stack = new_node;
 }
 
-void pop_symbol_table(SymbolTableStack **symbol_table_stack) {
+void pop_symbol_table_stack(SymbolTableStack **symbol_table_stack) {
 	if (*symbol_table_stack == NULL) return;
 	
 	SymbolTableStack *head_node = *symbol_table_stack;
@@ -64,6 +64,6 @@ void pop_symbol_table(SymbolTableStack **symbol_table_stack) {
 
 void destroy_symbol_table_stack(SymbolTableStack **symbol_table_stack) {
 	while (*symbol_table_stack != NULL) {
-		pop_symbol_table(symbol_table_stack);
+		pop_symbol_table_stack(symbol_table_stack);
 	}
 }
