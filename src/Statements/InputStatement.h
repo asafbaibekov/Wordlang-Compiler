@@ -7,12 +7,12 @@
 #include "../Expressions/Expression.h"
 
 typedef struct InputStatement {
-	SymbolTableStack *symbol_table_stack;
+	SymbolTableStack **symbol_table_stack;
 	char *identifier;
 	Expression *expression;
 } InputStatement;
 
-InputStatement *create_input_statement(SymbolTableStack *symbol_table_stack, char *identifier, Expression *expression);
+InputStatement *create_input_statement(SymbolTableStack **symbol_table_stack, char *identifier, Expression *expression);
 
 void execute_input_statement(InputStatement *input_statement);
 

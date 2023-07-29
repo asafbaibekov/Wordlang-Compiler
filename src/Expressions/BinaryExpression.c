@@ -53,9 +53,9 @@ Symbol *evaluate_binary_expression(BinaryExpression *binary_expression) {
 	if (result_symbol == NULL)
 		formatted_yyerror("Invalid operation on types %s %s %s", get_symbol_type(left_symbol), getOperator(operator), get_symbol_type(right_symbol));
 	if (left_symbol->name == NULL)
-		free_symbol(left_symbol);
+		destroy_symbol(left_symbol);
 	if (right_symbol->name == NULL)
-		free_symbol(right_symbol);
+		destroy_symbol(right_symbol);
 	return result_symbol;
 }
 

@@ -1,6 +1,17 @@
 #include "AssignmentStatement.h"
 
-AssignmentStatement *create_assignment_statement(SymbolTableStack *symbol_table_stack, char *identifier, Expression *expression) {
+static char *get_type_name(int type) {
+	switch (type) {
+		case TYPE_INT:		return "int";
+		case TYPE_CHAR: 	return "char";
+		case TYPE_WORD: 	return "word";
+		case TYPE_SENTENCE:	return "sentence";
+		case TYPE_BOOLEAN:	return "boolean";
+		default:			return "unknown";
+	}
+}
+
+AssignmentStatement *create_assignment_statement(SymbolTableStack **symbol_table_stack, char *identifier, Expression *expression) {
 	AssignmentStatement *assignment_statement = malloc(sizeof(AssignmentStatement));
 	assignment_statement->symbol_table_stack = symbol_table_stack;
 	assignment_statement->identifier = strdup(identifier);
@@ -9,18 +20,18 @@ AssignmentStatement *create_assignment_statement(SymbolTableStack *symbol_table_
 }
 
 void execute_assignment_statement(AssignmentStatement *assignment_statement) {
-	SymbolTableStack *symbol_table_stack = assignment_statement->symbol_table_stack;
+	SymbolTableStack **symbol_table_stack = assignment_statement->symbol_table_stack;
 	char *identifier = assignment_statement->identifier;
-	
-	Symbol *symbol_in_table = find_symbol_in_symbol_table_stack(symbol_table_stack, identifier);
+	Expression *expression = assignment_statement->expression;
+
+	Symbol *symbol_in_table = find_identifier_in_symbol_table_stack(*symbol_table_stack, identifier);
 	if (symbol_in_table == NULL)
 		formatted_yyerror("Variable %s not declared", identifier);
 
-	Expression *expression = assignment_statement->expression;
 	Symbol *symbol = evaluate_expression(expression);
 
 	if (symbol_in_table->type != symbol->type)
-		formatted_yyerror("Type mismatch");
+		formatted_yyerror("Type mismatch, cannot assign %s <- %s", get_type_name(symbol_in_table->type), get_type_name(symbol->type));
 	
 	switch (symbol->type) {
 		case TYPE_INT:

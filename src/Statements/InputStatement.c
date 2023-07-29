@@ -26,7 +26,7 @@ static char *readline() {
 	return str;
 }
 
-InputStatement *create_input_statement(SymbolTableStack *symbol_table_stack, char *identifier, Expression *expression) {
+InputStatement *create_input_statement(SymbolTableStack **symbol_table_stack, char *identifier, Expression *expression) {
 	InputStatement *input_statement = malloc(sizeof(InputStatement));
 	input_statement->symbol_table_stack = symbol_table_stack;
 	input_statement->identifier = identifier;
@@ -35,12 +35,12 @@ InputStatement *create_input_statement(SymbolTableStack *symbol_table_stack, cha
 }
 
 void execute_input_statement(InputStatement *input_statement) {
-	SymbolTableStack *symbol_table_stack = input_statement->symbol_table_stack;
+	SymbolTableStack **symbol_table_stack = input_statement->symbol_table_stack;
 	char *identifier = input_statement->identifier;
 	Symbol *symbol = evaluate_expression(input_statement->expression);
 	print_symbol_value(symbol);
 
-	Symbol *symbol_in_table = find_symbol_in_symbol_table_stack(symbol_table_stack, identifier);
+	Symbol *symbol_in_table = find_identifier_in_symbol_table_stack(*symbol_table_stack, identifier);
 	if (symbol_in_table == NULL)
 		formatted_yyerror("Variable %s not declared", identifier);
 

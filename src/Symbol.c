@@ -10,13 +10,6 @@ Symbol *create_symbol(char *name, int type, void *value) {
 	return symbol;
 }
 
-Symbol *copy_symbol(Symbol *symbol) {
-	if (symbol == NULL) return NULL;
-	Symbol *new_symbol = create_symbol(symbol->name, symbol->type, symbol->value);
-	new_symbol->next = NULL;
-	return new_symbol;
-}
-
 void assign_type_to_symbol(Symbol *symbol, int type) {
 	if (symbol == NULL) return;
 	symbol->type = type;
@@ -93,8 +86,15 @@ void print_symbol(Symbol *symbol, int indent_level) {
 	printf(";\n");
 }
 
-void free_symbol(Symbol *symbol) {
+void destroy_symbol(Symbol *symbol) {
 	if (symbol == NULL) return;
-	free(symbol->name);
+	if (symbol->name != NULL) free(symbol->name);
+	if (symbol->value != NULL) free(symbol->value);
 	free(symbol);
+}
+
+void destroy_symbol_list(Symbol *symbol) {
+	if (symbol == NULL) return;
+	destroy_symbol_list(symbol->next);
+	destroy_symbol(symbol);
 }

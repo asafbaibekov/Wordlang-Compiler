@@ -7,12 +7,12 @@
 #include "../SymbolTableStack.h"
 
 typedef struct AssignmentStatement {
-	SymbolTableStack *symbol_table_stack;
+	SymbolTableStack **symbol_table_stack;
 	char *identifier;
 	Expression *expression;
 } AssignmentStatement;
 
-AssignmentStatement *create_assignment_statement(SymbolTableStack *symbol_table_stack, char *identifier, Expression *expression);
+AssignmentStatement *create_assignment_statement(SymbolTableStack **symbol_table_stack, char *identifier, Expression *expression);
 
 void execute_assignment_statement(AssignmentStatement *assignment_statement);
 

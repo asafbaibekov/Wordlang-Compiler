@@ -6,6 +6,7 @@
 
 #include "StatementType.h"
 
+#include "ScopeStatement.h"
 #include "DeclarationStatement.h"
 #include "AssignmentStatement.h"
 #include "InputStatement.h"

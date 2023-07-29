@@ -6,11 +6,11 @@
 #include "../SymbolTableStack.h"
 
 typedef struct IdentifierExpression {
-	SymbolTableStack *symbol_table_stack;
+	SymbolTableStack **symbol_table_stack;
 	char *name;
 } IdentifierExpression;
 
-IdentifierExpression *create_identifier_expression(SymbolTableStack *symbol_table_stack, char *name);
+IdentifierExpression *create_identifier_expression(SymbolTableStack **symbol_table_stack, char *name);
 
 Symbol *evaluate_identifier_expression(IdentifierExpression *identifier_expression);
 

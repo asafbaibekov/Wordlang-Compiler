@@ -64,6 +64,7 @@ void formatted_yyerror(const char *format, ...) {
 
 %type <statement_val> statement
 %type <statement_val> statement_list
+%type <statement_val> scope_statement
 %type <statement_val> declaration_statement
 %type <statement_val> assignment_statement
 %type <statement_val> input_statement
@@ -97,14 +98,19 @@ statement_list:
 			$$ = $1;
 		}
 	|	statement_list statement {
-			Statement *statement_list = $2;
-			statement_list->next = $1;
-			$$ = statement_list;
+			if ($2 == NULL)
+				$$ = $1;
+			else {
+				Statement *statement_list = $2;
+				statement_list->next = $1;
+				$$ = statement_list;
+			}
 		}
 	;
 
 statement:
-		declaration_statement SIGN_SEMICOLON {
+		scope_statement
+	|	declaration_statement SIGN_SEMICOLON {
 			$$ = $1;
 		}
 	|	assignment_statement SIGN_SEMICOLON {
@@ -115,6 +121,23 @@ statement:
 		}
 	|	input_statement SIGN_SEMICOLON {
 			$$ = $1;
+		}
+	;
+
+scope_statement:
+		SIGN_LBRACE SIGN_RBRACE {
+			ScopeStatement *scope_statement = create_scope_statement(&symbol_table_stack, NULL);
+			$$ = create_statement(SCOPE_STATEMENT, scope_statement);
+		}
+	|	SIGN_LBRACE statement SIGN_RBRACE {
+			ScopeStatement *scope_statement = create_scope_statement(&symbol_table_stack, $2);
+			$$ = create_statement(SCOPE_STATEMENT, scope_statement);
+		}
+	|	SIGN_LBRACE statement_list statement SIGN_RBRACE {
+			Statement *statement_list = $3;
+			statement_list->next = $2;
+			ScopeStatement *scope_statement = create_scope_statement(&symbol_table_stack, statement_list);
+			$$ = create_statement(SCOPE_STATEMENT, scope_statement);
 		}
 	;
 
@@ -131,7 +154,7 @@ assignment_statement:
 		IDENTIFIER SIGN_ASSIGN expression {
 			char *identifier = $1;
 			Expression *expression = $3;
-			AssignmentStatement *assignment_statement = create_assignment_statement(symbol_table_stack, identifier, expression);
+			AssignmentStatement *assignment_statement = create_assignment_statement(&symbol_table_stack, identifier, expression);
 			$$ = create_statement(ASSIGNMENT_STATEMENT, assignment_statement);
 		}
 	;
@@ -140,7 +163,7 @@ input_statement:
 		KEYWORD_INPUT expression IDENTIFIER {
 			Expression *expression = $2;
 			char *identifier = $3;
-			InputStatement *input_statement = create_input_statement(symbol_table_stack, identifier, expression);
+			InputStatement *input_statement = create_input_statement(&symbol_table_stack, identifier, expression);
 			$$ = create_statement(INPUT_STATEMENT, input_statement);
 		}
 	;
@@ -252,7 +275,7 @@ literal:
 			free($1);
 		}
 	|	LITERAL_SENTENCE {
-			int length = strlen($1);
+			size_t length = strlen($1);
 			memmove($1, $1 + 1, length - 2);
 			$1[length - 2] = '\n';
 			$1[length - 1] = '\0';
@@ -265,7 +288,7 @@ literal:
 identifier:
 		IDENTIFIER {
 			char *identifier = $1;
-			IdentifierExpression *identifier_expression = create_identifier_expression(symbol_table_stack, identifier);
+			IdentifierExpression *identifier_expression = create_identifier_expression(&symbol_table_stack, identifier);
 			$$ = create_expression(IDENTIFIER_EXPRESSION, identifier_expression);
 		}
 	;

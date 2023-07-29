@@ -15,8 +15,6 @@ typedef struct Symbol {
 
 Symbol *create_symbol(char *name, int type, void *value);
 
-Symbol *copy_symbol(Symbol *symbol);
-
 void assign_type_to_symbol(Symbol *symbol, int type);
 
 void assign_value_to_symbol(Symbol *symbol, void *value);
@@ -29,6 +27,8 @@ void print_symbol_list(Symbol *symbol, int indent_level);
 
 void print_symbol(Symbol *symbol, int indent_level);
 
-void free_symbol(Symbol *symbol);
+void destroy_symbol(Symbol *symbol);
+
+void destroy_symbol_list(Symbol *symbol);
 
 #endif // SYMBOL_H

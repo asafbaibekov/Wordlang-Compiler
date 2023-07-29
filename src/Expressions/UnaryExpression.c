@@ -30,7 +30,7 @@ Symbol *evaluate_unary_expression(UnaryExpression *unary_expression) {
 	if (result_symbol == NULL)
 		formatted_yyerror("Invalid operation %s on type %s", getOperator(operator), get_symbol_type(symbol));
 	if (symbol->name == NULL)
-		free_symbol(symbol);
+		destroy_symbol(symbol);
 	return result_symbol;
 }
 

@@ -1,6 +1,6 @@
 #include "IdentifierExpression.h"
 
-IdentifierExpression *create_identifier_expression(SymbolTableStack *symbol_table_stack, char *name) {
+IdentifierExpression *create_identifier_expression(SymbolTableStack **symbol_table_stack, char *name) {
 	IdentifierExpression *identifier_expression = malloc(sizeof(IdentifierExpression));
 	identifier_expression->symbol_table_stack = symbol_table_stack;
 	if (strlen(name) > 32)
@@ -10,9 +10,9 @@ IdentifierExpression *create_identifier_expression(SymbolTableStack *symbol_tabl
 }
 
 Symbol *evaluate_identifier_expression(IdentifierExpression *identifier_expression) {
-	SymbolTableStack *symbol_table_stack = identifier_expression->symbol_table_stack;
+	SymbolTableStack **symbol_table_stack = identifier_expression->symbol_table_stack;
 	char *name = identifier_expression->name;
-	Symbol *symbol = find_symbol_in_symbol_table_stack(symbol_table_stack, name);
+	Symbol *symbol = find_identifier_in_symbol_table_stack(*symbol_table_stack, name);
 	if (symbol == NULL)
 		formatted_yyerror("Variable %s not declared", name);
 	return symbol;
