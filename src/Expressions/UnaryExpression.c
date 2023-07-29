@@ -34,6 +34,11 @@ Symbol *evaluate_unary_expression(UnaryExpression *unary_expression) {
 	return result_symbol;
 }
 
+void print_unary_expression(UnaryExpression *unary_expression) {
+	printf("%s", getOperator(unary_expression->operator));
+	print_expression(unary_expression->expression);
+}
+
 void destroy_unary_expression(UnaryExpression *unary_expression) {
 	destroy_expression(unary_expression->expression);
 	free(unary_expression);

@@ -19,6 +19,8 @@ BinaryExpression *create_binary_expression(Expression *left, int operator, Expre
 
 Symbol *evaluate_binary_expression(BinaryExpression *binary_expression);
 
+void print_binary_expression(BinaryExpression *binary_expression);
+
 void destroy_binary_expression(BinaryExpression *binary_expression);
 
 #endif // BINARY_EXPRESSION_H

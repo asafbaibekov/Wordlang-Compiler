@@ -80,6 +80,14 @@ void execute_input_statement(InputStatement *input_statement) {
 	}
 }
 
+void print_input_statement(InputStatement *input_statement, int indent_level) {
+	for (int i = 0; i < indent_level; i++)
+		printf("\t");
+	printf("input:  ");
+	print_expression(input_statement->expression);
+	printf(";\n");
+}
+
 void destroy_input_statement(InputStatement *input_statement) {
 	destroy_expression(input_statement->expression);
 	free(input_statement);

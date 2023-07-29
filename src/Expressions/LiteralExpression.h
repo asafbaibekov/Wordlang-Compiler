@@ -2,6 +2,7 @@
 #define LITERAL_EXPRESSION_H
 
 #include <stdlib.h>
+#include "../../bin/y.tab.h"
 #include "../Symbol.h"
 
 typedef struct LiteralExpression {
@@ -12,6 +13,8 @@ typedef struct LiteralExpression {
 LiteralExpression *create_literal_expression(int type, void *value);
 
 Symbol *evaluate_literal_expression(LiteralExpression *literal_expression);
+
+void print_literal_expression(LiteralExpression *literal_expression);
 
 void destroy_literal_expression(LiteralExpression *literal_expression);
 

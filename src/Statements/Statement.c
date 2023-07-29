@@ -33,6 +33,34 @@ void execute_statement_list(Statement *statement_list) {
 	execute_statement(statement_list);
 }
 
+void print_statement(Statement *statement, int indent_level) {
+	if (statement == NULL) return;
+	for (int i = 0; i < indent_level; i++)
+		printf("\t");
+	switch (statement->type) {
+		case DECLARATION_STATEMENT:
+			print_declaration_statement(statement->data, indent_level);
+			break;
+		case ASSIGNMENT_STATEMENT:
+			print_assignment_statement(statement->data, indent_level);
+			break;
+		case OUTPUT_STATEMENT:
+			print_output_statement(statement->data, indent_level);
+			break;
+		case INPUT_STATEMENT:
+			print_input_statement(statement->data, indent_level);
+			break;
+		default:
+			break;
+	}
+}
+
+void print_statement_list(Statement *statement_list, int indent_level) {
+	if (statement_list == NULL) return;
+	print_statement_list(statement_list->next, indent_level);
+	print_statement(statement_list, indent_level);
+}
+
 void destroy_statement(Statement *statement) {
 	switch (statement->type) {
 		case DECLARATION_STATEMENT:
@@ -51,4 +79,10 @@ void destroy_statement(Statement *statement) {
 			break;
 	}
 	free(statement);
+}
+
+void destroy_statement_list(Statement *statement_list) {
+	if (statement_list == NULL) return;
+	destroy_statement_list(statement_list->next);
+	destroy_statement(statement_list);
 }

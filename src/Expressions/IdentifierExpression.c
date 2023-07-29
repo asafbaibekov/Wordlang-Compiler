@@ -18,6 +18,10 @@ Symbol *evaluate_identifier_expression(IdentifierExpression *identifier_expressi
 	return symbol;
 }
 
+void print_identifier_expression(IdentifierExpression *identifier_expression) {
+	printf("%s", identifier_expression->name);
+}
+
 void destroy_identifier_expression(IdentifierExpression *identifier_expression) {
 	free(identifier_expression->name);
 	free(identifier_expression);

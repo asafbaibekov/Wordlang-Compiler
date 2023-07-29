@@ -18,6 +18,8 @@ UnaryExpression *create_unary_expression(int operator, Expression *expression);
 
 Symbol *evaluate_unary_expression(UnaryExpression *unary_expression);
 
+void print_unary_expression(UnaryExpression *unary_expression);
+
 void destroy_unary_expression(UnaryExpression *unary_expression);
 
 #endif // UNARY_EXPRESSION_H

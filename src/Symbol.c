@@ -52,14 +52,17 @@ void print_symbol_value(Symbol *symbol) {
 	}
 }
 
-void print_symbol_list(Symbol *symbol) {
+void print_symbol_list(Symbol *symbol, int indent_level) {
 	if (symbol == NULL) return;
-	print_symbol_list(symbol->next);
-	print_symbol(symbol);
+	print_symbol_list(symbol->next, indent_level);
+	print_symbol(symbol, indent_level);
 }
 
-void print_symbol(Symbol *symbol) {
+void print_symbol(Symbol *symbol, int indent_level) {
 	if (symbol == NULL) return;
+	
+	for (int i = 0; i < indent_level; i++)
+		printf("\t");
 	
 	switch (symbol->type) {
 		case TYPE_INT:		printf("int ");			break;

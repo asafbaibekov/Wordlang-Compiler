@@ -25,9 +25,9 @@ char *get_symbol_type(Symbol *symbol);
 
 void print_symbol_value(Symbol *symbol);
 
-void print_symbol_list(Symbol *symbol);
+void print_symbol_list(Symbol *symbol, int indent_level);
 
-void print_symbol(Symbol *symbol);
+void print_symbol(Symbol *symbol, int indent_level);
 
 void free_symbol(Symbol *symbol);
 

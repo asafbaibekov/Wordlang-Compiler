@@ -46,6 +46,14 @@ void execute_assignment_statement(AssignmentStatement *assignment_statement) {
 	}
 }
 
+void print_assignment_statement(AssignmentStatement *assignment_statement, int indent_level) {
+	for (int i = 0; i < indent_level; i++)
+		printf("\t");
+	printf("%s = ", assignment_statement->identifier);
+	print_expression(assignment_statement->expression);
+	printf(";\n");
+}
+
 void destroy_assignment_statement(AssignmentStatement *assignment_statement) {
 	destroy_expression(assignment_statement->expression);
 	free(assignment_statement->identifier);

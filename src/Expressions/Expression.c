@@ -22,6 +22,23 @@ Symbol *evaluate_expression(Expression *expression) {
 	}
 }
 
+void print_expression(Expression *expression) {
+	switch (expression->type) {
+		case LITERAL_EXPRESSION:
+			print_literal_expression(expression->data);
+			break;
+		case IDENTIFIER_EXPRESSION:
+			print_identifier_expression(expression->data);
+			break;
+		case UNARY_EXPRESSION:
+			print_unary_expression(expression->data);
+			break;
+		case BINARY_EXPRESSION:
+			print_binary_expression(expression->data);
+			break;
+	}
+}
+
 void destroy_expression(Expression *expression) {
 	switch (expression->type) {
 		case LITERAL_EXPRESSION:
