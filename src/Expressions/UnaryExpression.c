@@ -29,8 +29,6 @@ Symbol *evaluate_unary_expression(UnaryExpression *unary_expression) {
 	Symbol *result_symbol = perform_unary_operation(operator, symbol);
 	if (result_symbol == NULL)
 		formatted_yyerror("Invalid operation %s on type %s", getOperator(operator), get_symbol_type(symbol));
-	if (symbol->name == NULL)
-		destroy_symbol(symbol);
 	return result_symbol;
 }
 

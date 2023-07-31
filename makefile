@@ -23,6 +23,7 @@ SOURCE_FILES =	$(SOURCE_FOLDER)Symbol.c \
 				$(SOURCE_FOLDER)Statements/ConditionalStatement/IfStatement.c \
 				$(SOURCE_FOLDER)Statements/ConditionalStatement/ElseStatement.c \
 				$(SOURCE_FOLDER)Statements/ConditionalStatement/ConditionalStatement.c \
+				$(SOURCE_FOLDER)Statements/WhileStatement.c \
 				$(SOURCE_FOLDER)Statements/Statement.c \
 				$(SOURCE_FOLDER)Expressions/LiteralExpression.c \
 				$(SOURCE_FOLDER)Expressions/IdentifierExpression.c \

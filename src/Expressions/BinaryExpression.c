@@ -52,10 +52,6 @@ Symbol *evaluate_binary_expression(BinaryExpression *binary_expression) {
 	Symbol *result_symbol = perform_binary_operation(left_symbol, operator, right_symbol);
 	if (result_symbol == NULL)
 		formatted_yyerror("Invalid operation on types %s %s %s", get_symbol_type(left_symbol), getOperator(operator), get_symbol_type(right_symbol));
-	if (left_symbol->name == NULL)
-		destroy_symbol(left_symbol);
-	if (right_symbol->name == NULL)
-		destroy_symbol(right_symbol);
 	return result_symbol;
 }
 
