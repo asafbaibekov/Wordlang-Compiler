@@ -10,6 +10,9 @@ Statement *create_statement(StatementType type, void *data) {
 
 void execute_statement(Statement *statement) {
 	switch (statement->type) {
+		case CONDITIONAL_STATEMENT:
+			execute_conditional_statement_list(statement->data);
+			break;
 		case SCOPE_STATEMENT:
 			execute_scope_statement(statement->data);
 			break;
@@ -41,6 +44,9 @@ void print_statement(Statement *statement, int indent_level) {
 	for (int i = 0; i < indent_level; i++)
 		printf("\t");
 	switch (statement->type) {
+		case CONDITIONAL_STATEMENT:
+			print_conditional_statement(statement->data, indent_level);
+			break;
 		case SCOPE_STATEMENT:
 			print_scope_statement(statement->data, indent_level);
 			break;
@@ -69,6 +75,9 @@ void print_statement_list(Statement *statement_list, int indent_level) {
 
 void destroy_statement(Statement *statement) {
 	switch (statement->type) {
+		case CONDITIONAL_STATEMENT:
+			destroy_conditional_statement(statement->data);
+			break;
 		case SCOPE_STATEMENT:
 			destroy_scope_statement(statement->data);
 			break;

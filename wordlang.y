@@ -47,6 +47,9 @@ void formatted_yyerror(const char *format, ...) {
 %token SIGN_ASSIGN SIGN_LPAREN SIGN_RPAREN SIGN_LBRACE SIGN_RBRACE
 %token OPERATOR_MINUS OPERATOR_PLUS OPERATOR_CONCAT OPERATOR_INDEX OPERATOR_LT OPERATOR_GT OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_NE OPERATOR_NOT
 
+%nonassoc ELSE
+%nonassoc KEYWORD_ELSE
+
 %token<int_val> LITERAL_INTEGER
 %token<string_val> LITERAL_CHAR
 %token<string_val> LITERAL_WORD LITERAL_SENTENCE
@@ -64,6 +67,7 @@ void formatted_yyerror(const char *format, ...) {
 
 %type <statement_val> statement
 %type <statement_val> statement_list
+%type <statement_val> conditional_statement
 %type <statement_val> scope_statement
 %type <statement_val> declaration_statement
 %type <statement_val> assignment_statement
@@ -109,7 +113,8 @@ statement_list:
 	;
 
 statement:
-		scope_statement
+		conditional_statement
+	|	scope_statement
 	|	declaration_statement SIGN_SEMICOLON {
 			$$ = $1;
 		}
@@ -121,6 +126,25 @@ statement:
 		}
 	|	input_statement SIGN_SEMICOLON {
 			$$ = $1;
+		}
+	;
+
+
+conditional_statement:
+		KEYWORD_IF parentheses_expression statement %prec ELSE {
+			Expression *expression = $2;
+			Statement *statement = $3;
+			IfStatement *if_statement = create_if_statement(expression, statement);
+			ConditionalStatement *conditional_statement = create_conditional_statement(IF_CONDITIONAL, if_statement);
+			$$ = create_statement(CONDITIONAL_STATEMENT, conditional_statement);
+		}
+	|	KEYWORD_IF parentheses_expression statement KEYWORD_ELSE statement {
+			IfStatement *if_statement = create_if_statement($2, $3);
+			ElseStatement *else_statement = create_else_statement($5);
+			ConditionalStatement *if_conditional_statement = create_conditional_statement(IF_CONDITIONAL, if_statement);
+			ConditionalStatement *else_conditional_statement = create_conditional_statement(ELSE_CONDITIONAL, else_statement);
+			else_conditional_statement->next = if_conditional_statement;
+			$$ = create_statement(CONDITIONAL_STATEMENT, else_conditional_statement);
 		}
 	;
 
