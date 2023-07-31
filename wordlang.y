@@ -217,54 +217,54 @@ parentheses_expression:
 unary_expression:
 		OPERATOR_MINUS expression {
 			UnaryExpression *unary_expression = create_unary_expression(OPERATOR_MINUS, $2);
-			$$ = create_expression(UNARY_EXPRESSION, unary_expression)
+			$$ = create_expression(UNARY_EXPRESSION, unary_expression);
 		}
 	|	OPERATOR_NOT expression {
 			UnaryExpression *unary_expression = create_unary_expression(OPERATOR_NOT, $2);
-			$$ = create_expression(UNARY_EXPRESSION, unary_expression)
+			$$ = create_expression(UNARY_EXPRESSION, unary_expression);
 		}
 	;
 
 binary_expression:
 		expression OPERATOR_MINUS expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_MINUS, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_PLUS expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_PLUS, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_CONCAT expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_CONCAT, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_INDEX expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_INDEX, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_LT expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_LT, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_LE expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_LE, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_GT expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_GT, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_GE expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_GE, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_EQ expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_EQ, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	|	expression OPERATOR_NE expression {
 			BinaryExpression *binary_expression = create_binary_expression($1, OPERATOR_NE, $3);
-			$$ = create_expression(BINARY_EXPRESSION, binary_expression)
+			$$ = create_expression(BINARY_EXPRESSION, binary_expression);
 		}
 	;
 
