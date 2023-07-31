@@ -20,7 +20,6 @@ bool execute_conditional_statement(ConditionalStatement *conditional_statement) 
 }
 
 bool execute_conditional_statement_list(ConditionalStatement *conditional_statement_list) {
-	ConditionalStatement *current_conditional_statement = conditional_statement_list;
 	if (conditional_statement_list == NULL) return false;
 	bool isExecuted = execute_conditional_statement_list(conditional_statement_list->next);
 	if (isExecuted) return true;
@@ -64,7 +63,6 @@ void destroy_conditional_statement(ConditionalStatement *conditional_statement) 
 }
 
 void destroy_conditional_statement_list(ConditionalStatement *conditional_statement_list) {
-	ConditionalStatement *current_conditional_statement = conditional_statement_list;
 	if (conditional_statement_list == NULL) return;
 	destroy_conditional_statement_list(conditional_statement_list->next);
 	destroy_conditional_statement(conditional_statement_list);
