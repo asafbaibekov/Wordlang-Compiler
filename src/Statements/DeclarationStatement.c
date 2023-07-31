@@ -21,6 +21,7 @@ void execute_declaration_statement(DeclarationStatement *declaration_statement) 
 
 	int type = declaration_statement->type;
 	assign_type_to_symbol(symbol, type);
+	assign_default_value_to_symbol(symbol);
 	append_symbol_to_symbol_table_stack(symbol_table_stack, symbol);
 }
 

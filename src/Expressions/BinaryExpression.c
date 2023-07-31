@@ -41,13 +41,6 @@ Symbol *evaluate_binary_expression(BinaryExpression *binary_expression) {
 	Symbol *right_symbol = evaluate_expression(binary_expression->right);
 
 	if (left_symbol == NULL || right_symbol == NULL) return NULL;
-	if (left_symbol->value == NULL || right_symbol->value == NULL) {
-		if (left_symbol->value == NULL)
-			formatted_yyerror("identifier %s has no value\n", left_symbol->name);
-		if (right_symbol->value == NULL)
-			formatted_yyerror("identifier %s has no value\n", right_symbol->name);
-		return NULL;
-	}
 
 	Symbol *result_symbol = perform_binary_operation(left_symbol, operator, right_symbol);
 	if (result_symbol == NULL)

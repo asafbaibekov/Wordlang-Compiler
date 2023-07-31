@@ -23,8 +23,6 @@ Symbol *evaluate_unary_expression(UnaryExpression *unary_expression) {
 	Symbol *symbol = evaluate_expression(unary_expression->expression);
 
 	if (symbol == NULL) return NULL;
-	if (symbol->value == NULL)
-		formatted_yyerror("Identifier %s has no value", symbol->name);
 	
 	Symbol *result_symbol = perform_unary_operation(operator, symbol);
 	if (result_symbol == NULL)

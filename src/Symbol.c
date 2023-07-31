@@ -16,6 +16,38 @@ void assign_type_to_symbol(Symbol *symbol, int type) {
 	assign_type_to_symbol(symbol->next, type);
 }
 
+void assign_default_value_to_symbol(Symbol *symbol) {
+	if (symbol == NULL) return;
+	switch (symbol->type) {
+		case TYPE_INT: {
+			int *integer = (int *) malloc(sizeof(int));
+			*integer = 0;
+			assign_value_to_symbol(symbol, integer);
+			break;
+		} case TYPE_CHAR: {
+			char *character = (char *) malloc(sizeof(char));
+			*character = '\0';
+			assign_value_to_symbol(symbol, character);
+			break;
+		} case TYPE_WORD: {
+			char *word = strdup("");
+			assign_value_to_symbol(symbol, word);
+			break;
+		} case TYPE_SENTENCE: {
+			char *sentence = strdup("");
+			assign_value_to_symbol(symbol, sentence);
+			break;
+		} case TYPE_BOOLEAN: {
+			bool *boolean = (bool *) malloc(sizeof(bool));
+			*boolean = false;
+			assign_value_to_symbol(symbol, (int *) boolean);
+			break;
+		} default:
+			break;
+	}
+	assign_default_value_to_symbol(symbol->next);
+}
+
 void assign_value_to_symbol(Symbol *symbol, void *value) {
 	if (symbol == NULL) return;
 	symbol->value = value;

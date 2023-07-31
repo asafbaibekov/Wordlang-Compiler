@@ -17,6 +17,8 @@ Symbol *create_symbol(char *name, int type, void *value);
 
 void assign_type_to_symbol(Symbol *symbol, int type);
 
+void assign_default_value_to_symbol(Symbol *symbol);
+
 void assign_value_to_symbol(Symbol *symbol, void *value);
 
 char *get_symbol_type(Symbol *symbol);
