@@ -10,6 +10,9 @@ Statement *create_statement(StatementType type, void *data) {
 
 void execute_statement(Statement *statement) {
 	switch (statement->type) {
+		case LOOP_STATEMENT:
+			execute_loop_statement(statement->data);
+			break;
 		case WHILE_STATEMENT:
 			execute_while_statement(statement->data);
 			break;
@@ -47,6 +50,9 @@ void print_statement(Statement *statement, int indent_level) {
 	for (int i = 0; i < indent_level; i++)
 		printf("\t");
 	switch (statement->type) {
+		case LOOP_STATEMENT:
+			print_loop_statement(statement->data, indent_level);
+			break;
 		case WHILE_STATEMENT:
 			print_while_statement(statement->data, indent_level);
 			break;
@@ -81,6 +87,9 @@ void print_statement_list(Statement *statement_list, int indent_level) {
 
 void destroy_statement(Statement *statement) {
 	switch (statement->type) {
+		case LOOP_STATEMENT:
+			destroy_loop_statement(statement->data);
+			break;
 		case WHILE_STATEMENT:
 			destroy_while_statement(statement->data);
 			break;

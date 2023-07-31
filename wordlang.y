@@ -67,6 +67,7 @@ void formatted_yyerror(const char *format, ...) {
 
 %type <statement_val> statement
 %type <statement_val> statement_list
+%type <statement_val> loop_statement
 %type <statement_val> while_statement
 %type <statement_val> conditional_statement
 %type <statement_val> scope_statement
@@ -110,7 +111,8 @@ statement_list:
 	;
 
 statement:
-		while_statement
+		loop_statement
+	|	while_statement
 	|	conditional_statement
 	|	scope_statement
 	|	declaration_statement SIGN_SEMICOLON {
@@ -124,6 +126,13 @@ statement:
 		}
 	|	input_statement SIGN_SEMICOLON {
 			$$ = $1;
+		}
+	;
+
+loop_statement:
+		KEYWORD_LOOP parentheses_expression statement {
+			LoopStatement *loop_statement = create_loop_statement($2, $3);
+			$$ = create_statement(LOOP_STATEMENT, loop_statement);
 		}
 	;
 

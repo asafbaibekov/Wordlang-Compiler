@@ -6,6 +6,7 @@
 
 #include "StatementType.h"
 
+#include "LoopStatement.h"
 #include "WhileStatement.h"
 #include "ConditionalStatement/ConditionalStatement.h"
 #include "ScopeStatement.h"
