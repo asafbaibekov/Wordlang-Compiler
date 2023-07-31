@@ -102,13 +102,9 @@ statement_list:
 			$$ = $1;
 		}
 	|	statement_list statement {
-			if ($2 == NULL)
-				$$ = $1;
-			else {
-				Statement *statement_list = $2;
-				statement_list->next = $1;
-				$$ = statement_list;
-			}
+			Statement *statement_list = $2;
+			statement_list->next = $1;
+			$$ = statement_list;
 		}
 	;
 
