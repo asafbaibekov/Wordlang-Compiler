@@ -108,6 +108,13 @@ Symbol *perform_binary_minus_operation(Symbol *symbol1, Symbol *symbol2) {
 		*integer = *((int *) symbol1->value) - *((int *) symbol2->value);
 		return create_symbol(NULL, TYPE_INT, integer);
 	}
+	else if (symbol1->type == TYPE_CHAR && symbol2->type == TYPE_CHAR) {
+		char *character = malloc(sizeof(char));
+		*character = '\0';
+		if (*((char *) symbol1->value) != *((char *) symbol2->value))
+			*character = *((char *) symbol1->value);
+		return create_symbol(NULL, TYPE_CHAR, character);
+	}
 	else if (symbol1->type == TYPE_SENTENCE && symbol2->type == TYPE_WORD) {
 		char *sentence = strdup((char *) symbol1->value);
 		char *word = (char *) symbol2->value;

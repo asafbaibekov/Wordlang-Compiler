@@ -12,13 +12,23 @@ bool execute_if_statement(IfStatement *if_statement) {
 	Statement *statement = if_statement->statement;
 
 	Symbol *symbol = evaluate_expression(expression);
-	if (symbol->type != TYPE_BOOLEAN)
-		formatted_yyerror("If statement expression must evaluate to a boolean");
-	
-	bool value = *((bool *) symbol->value);
-	if (value)
-		execute_statement_list(statement);
-	return value;
+	switch (symbol->type) {
+		case TYPE_CHAR: {
+			bool value = *((char *) symbol->value) != '\0';
+			if (value)
+				execute_statement_list(statement);
+			return value;
+		}
+		case TYPE_BOOLEAN: {
+			bool value = *((bool *) symbol->value);
+			if (value)
+				execute_statement_list(statement);
+			return value;
+		}
+		default:
+			formatted_yyerror("If statement expression could not be evaluated");
+			return false;
+	}
 }
 
 void print_if_statement(IfStatement *if_statement, int indent_level) {
