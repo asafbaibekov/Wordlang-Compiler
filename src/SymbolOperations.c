@@ -119,10 +119,23 @@ Symbol *perform_binary_minus_operation(Symbol *symbol1, Symbol *symbol2) {
 		char *sentence = strdup((char *) symbol1->value);
 		char *word = (char *) symbol2->value;
 		char *word_position = strstr(sentence, word);
-		if (word_position != NULL) {
-			memmove(word_position, word_position + strlen(word), strlen(word_position + strlen(word)) + 1);
+		if (word_position == NULL)
 			return create_symbol(NULL, TYPE_SENTENCE, sentence);
-		}
+		
+		bool is_start_of_sentence = word_position == sentence;
+		bool is_end_of_sentence = word_position[strlen(word)] == '\n' && word_position[strlen(word) + 1] == '\0';
+		bool is_space_before_word = *(word_position - 1) == ' ';
+		bool is_space_after_word = *(word_position + strlen(word)) == ' ';
+
+		if (is_start_of_sentence && is_end_of_sentence)
+			memmove(word_position, word_position + strlen(word), strlen(word_position + strlen(word)) + 1);
+		else if (is_start_of_sentence && is_space_after_word)
+			memmove(word_position, word_position + strlen(word) + 1, strlen(word_position + strlen(word) + 1) + 1);
+		else if (is_end_of_sentence && is_space_before_word)
+			memmove(word_position - 1, word_position + strlen(word), strlen(word_position + strlen(word)) + 1);
+		else if (is_space_before_word && is_space_after_word)
+			memmove(word_position - 1, word_position + strlen(word), strlen(word_position + strlen(word)) + 1);
+		
 		return create_symbol(NULL, TYPE_SENTENCE, sentence);
 	}
 	else if (symbol1->type == TYPE_SENTENCE && symbol2->type == TYPE_CHAR) {
