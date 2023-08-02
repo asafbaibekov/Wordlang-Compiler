@@ -52,12 +52,9 @@ void execute_input_statement(InputStatement *input_statement) {
 			break;
 		}
 		case TYPE_CHAR: {
-			char *string = malloc(sizeof(char *));
-			fscanf(stdin, "%s", string);
 			char *character = malloc(sizeof(char));
-			*character = string[0];
+			fscanf(stdin, "%c", character);
 			symbol_in_table->value = character;
-			free(string);
 			break;
 		}
 		case TYPE_WORD: {
