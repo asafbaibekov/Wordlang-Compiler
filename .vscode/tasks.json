@@ -4,7 +4,7 @@
         {
             "label": "make",
             "type": "shell",
-            "command": "make clean; printf '\\033c'; make; make run",
+            "command": "printf '\\033c'; make; make run",
             "group": {
                 "kind": "build",
                 "isDefault": true
