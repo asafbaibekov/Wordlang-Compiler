@@ -282,11 +282,13 @@ Symbol *perform_binary_concat_operation(Symbol *symbol1, Symbol *symbol2) {
 		char *word2 = (char *) symbol2->value;
 		removeLastCharacter(&sentence1);
 		char *sentence = malloc(sizeof(char) * (strlen(sentence1) + strlen(word2) + 3));
-		strcpy(sentence, sentence1);
-		strcat(sentence, " ");
-		strcat(sentence, word2);
-		sentence[strlen(sentence1) + strlen(word2) + 1] = '\n';
-		sentence[strlen(sentence1) + strlen(word2) + 2] = '\0';
+		if (strlen(sentence1) > 0) {
+			strcpy(sentence, sentence1);
+			strcat(sentence, " ");
+			strcat(sentence, word2);
+		} else
+			strcpy(sentence, word2);
+		strcat(sentence, "\n");
 		free(sentence1);
 		return create_symbol(NULL, TYPE_SENTENCE, sentence);
 	}
