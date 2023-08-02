@@ -22,13 +22,13 @@ while (s1:0 != last) {
 	w1 = s1:0;
 	s1 = (s1 - w1) # w1;
 }
-Output s1; // Outputs: <object> {a | an} holding are You
+output s1; // Outputs: <object> {a | an} holding are You
 
 char b, e, palindrome; // Find Palindrome (works only if no more than 2 equal chars)
 word savWord;
 palindrome = 'Y';
 input ^Enter a word:^ w1; // For example: racecar
-savWord = word;
+savWord = w1;
 while (w1) {
 	b = w1:0;
 	e = w1:-1;
@@ -37,18 +37,18 @@ while (w1) {
 			palindrome = 'N';
 	w1 = w1 - b - e;
 }
-If (palindrome == 'Y')
+if (palindrome == 'Y')
 	output savWord # ^is a palindrome word^; //In example: racecar is a palindrome word
 else
 	output savWord # ^is not a palindrome^;
 
 // Sort words in s1. For example: ^apple an holding are you^
+s1 = ^apple an holding are you^;
 int i, j, count;
 count=0;
 while (s1:count)
 	count = count + 1;
 sentence s;
-
 while (count>1) {
 	i = 0;
 	loop (count-1) {
