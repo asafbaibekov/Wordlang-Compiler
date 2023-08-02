@@ -10,18 +10,13 @@ WhileStatement *create_while_statement(Expression *expression, Statement *statem
 void execute_while_statement(WhileStatement *while_statement) {
 	Expression *expression = while_statement->expression;
 	Statement *statement = while_statement->statement;
-	
-	Symbol *symbol = evaluate_expression(expression);
-	if (symbol->type != TYPE_BOOLEAN)
-		formatted_yyerror("While statement expression must evaluate to a boolean");
-	
-	bool value = *((bool *) symbol->value);
+
+	Symbol *symbol = evaluate_expression(expression);	
+	bool value = get_symbol_value_as_bool(symbol);
 	while (value) {
 		execute_statement_list(statement);
 		symbol = evaluate_expression(expression);
-		if (symbol->type != TYPE_BOOLEAN)
-			formatted_yyerror("While statement expression must evaluate to a boolean");
-		value = *((bool *) symbol->value);
+		value = get_symbol_value_as_bool(symbol);
 	}
 }
 

@@ -65,6 +65,23 @@ char *get_symbol_type(Symbol *symbol) {
 	}
 }
 
+bool get_symbol_value_as_bool(Symbol *symbol) {
+	if (symbol == NULL) return false;
+	switch (symbol->type) {
+		case TYPE_INT:		return *((int *) symbol->value) != 0;
+		case TYPE_CHAR:		return *((char *) symbol->value) != '\0';
+		case TYPE_WORD:		return strlen((char *) symbol->value) > 0;
+		case TYPE_SENTENCE: {
+			char *sentence = (char *) symbol->value;
+			size_t length = strlen(sentence);
+			if (length == 1 && sentence[0] == '\n') return false;
+			return length > 0;
+		}
+		case TYPE_BOOLEAN:	return *((bool *) symbol->value);
+		default:			return false;
+	}
+}
+
 void print_symbol_value(Symbol *symbol) {
 	if (symbol == NULL) return;
 	switch (symbol->type) {

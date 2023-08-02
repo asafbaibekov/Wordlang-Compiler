@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "../wordlang.h"
 
 typedef struct Symbol {
@@ -22,6 +23,8 @@ void assign_default_value_to_symbol(Symbol *symbol);
 void assign_value_to_symbol(Symbol *symbol, void *value);
 
 char *get_symbol_type(Symbol *symbol);
+
+bool get_symbol_value_as_bool(Symbol *symbol);
 
 void print_symbol_value(Symbol *symbol);
 
