@@ -76,10 +76,6 @@ void formatted_yyerror(const char *format, ...) {
 %type <statement_val> input_statement
 %type <statement_val> output_statement
 
-%left OPERATOR_PLUS
-%left OPERATOR_MINUS
-%left OPERATOR_CONCAT
-%left OPERATOR_INDEX
 %left OPERATOR_LT
 %left OPERATOR_LE
 %left OPERATOR_GT
@@ -87,6 +83,10 @@ void formatted_yyerror(const char *format, ...) {
 %left OPERATOR_EQ
 %left OPERATOR_NE
 %left OPERATOR_NOT
+%left OPERATOR_PLUS
+%left OPERATOR_MINUS
+%left OPERATOR_CONCAT
+%left OPERATOR_INDEX
 
 %start program
 
