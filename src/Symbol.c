@@ -34,7 +34,7 @@ void assign_default_value_to_symbol(Symbol *symbol) {
 			assign_value_to_symbol(symbol, word);
 			break;
 		} case TYPE_SENTENCE: {
-			char *sentence = strdup("");
+			char *sentence = strdup("\n");
 			assign_value_to_symbol(symbol, sentence);
 			break;
 		} case TYPE_BOOLEAN: {
