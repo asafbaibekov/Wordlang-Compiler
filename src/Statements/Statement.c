@@ -8,6 +8,11 @@ Statement *create_statement(StatementType type, void *data) {
 	return statement;
 }
 
+Statement *create_statement_list(Statement *statement_list, Statement *statement) {
+	statement_list->next = statement;
+	return statement_list;
+}
+
 void execute_statement(Statement *statement) {
 	switch (statement->type) {
 		case LOOP_STATEMENT:

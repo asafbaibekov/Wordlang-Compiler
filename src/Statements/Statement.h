@@ -26,6 +26,8 @@ typedef struct Statement {
 
 Statement *create_statement(StatementType type, void *data);
 
+Statement *create_statement_list(Statement *statement_list, Statement *statement);
+
 void execute_statement(Statement *statement);
 
 void execute_statement_list(Statement *statement_list);

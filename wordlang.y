@@ -104,9 +104,7 @@ statement_list:
 			$$ = $1;
 		}
 	|	statement_list statement {
-			Statement *statement_list = $2;
-			statement_list->next = $1;
-			$$ = statement_list;
+			$$ = create_statement_list($2, $1);
 		}
 	;
 
