@@ -10,6 +10,12 @@ Symbol *create_symbol(char *name, int type, void *value) {
 	return symbol;
 }
 
+Symbol *create_symbol_list(char *name, int type, void *value, Symbol *next) {
+	Symbol *symbol = create_symbol(name, type, value);
+	symbol->next = next;
+	return symbol;
+}
+
 void assign_type_to_symbol(Symbol *symbol, int type) {
 	if (symbol == NULL) return;
 	symbol->type = type;

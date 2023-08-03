@@ -342,9 +342,7 @@ var_list:
 			$$ = create_symbol($1, 0, NULL);
 		}
 	|	IDENTIFIER SIGN_COMMA var_list {
-			Symbol *symbol = create_symbol($1, 0, NULL);
-			symbol->next = $3;
-			$$ = symbol;
+			$$ = create_symbol_list($1, 0, NULL, $3);
 		}
 	;
 

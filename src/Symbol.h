@@ -16,6 +16,8 @@ typedef struct Symbol {
 
 Symbol *create_symbol(char *name, int type, void *value);
 
+Symbol *create_symbol_list(char *name, int type, void *value, Symbol *next);
+
 void assign_type_to_symbol(Symbol *symbol, int type);
 
 void assign_default_value_to_symbol(Symbol *symbol);
