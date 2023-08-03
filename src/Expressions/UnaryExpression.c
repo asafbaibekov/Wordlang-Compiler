@@ -2,12 +2,9 @@
 
 static char *getOperator(int operator) {
 	switch (operator) {
-		case OPERATOR_MINUS:
-			return "-";
-		case OPERATOR_NOT:
-			return "!";
-		default:
-			return "";
+		case OPERATOR_MINUS:	return "-";
+		case OPERATOR_NOT:		return "!";
+		default:				return "";
 	}
 }
 

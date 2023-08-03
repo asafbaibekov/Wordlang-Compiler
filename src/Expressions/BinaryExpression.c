@@ -2,28 +2,17 @@
 
 static char *getOperator(int operator) {
 	switch (operator) {
-		case OPERATOR_MINUS:
-			return "-";
-		case OPERATOR_PLUS:
-			return "+";
-		case OPERATOR_CONCAT:
-			return "#";
-		case OPERATOR_INDEX:
-			return ":";
-		case OPERATOR_LT:
-			return "<";
-		case OPERATOR_GT:
-			return ">";
-		case OPERATOR_LE:
-			return "<=";
-		case OPERATOR_GE:
-			return ">=";
-		case OPERATOR_EQ:
-			return "==";
-		case OPERATOR_NE:
-			return "!=";
-		default:
-			return "";
+		case OPERATOR_MINUS:	return "-";
+		case OPERATOR_PLUS:		return "+";
+		case OPERATOR_CONCAT:	return "#";
+		case OPERATOR_INDEX:	return ":";
+		case OPERATOR_LT:		return "<";
+		case OPERATOR_GT:		return ">";
+		case OPERATOR_LE:		return "<=";
+		case OPERATOR_GE:		return ">=";
+		case OPERATOR_EQ:		return "==";
+		case OPERATOR_NE:		return "!=";
+		default:				return "";
 	}
 }
 
