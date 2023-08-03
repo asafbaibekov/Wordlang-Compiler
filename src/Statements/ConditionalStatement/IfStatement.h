@@ -19,7 +19,7 @@ IfStatement *create_if_statement(Expression *expression, Statement *statement);
 
 bool execute_if_statement(IfStatement *if_statement);
 
-void print_if_statement(IfStatement *if_statement, int indent_level);
+void print_if_statement(FILE *file, IfStatement *if_statement);
 
 void destroy_if_statement(IfStatement *if_statement);
 

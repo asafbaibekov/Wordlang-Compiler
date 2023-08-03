@@ -14,7 +14,7 @@ LiteralExpression *create_literal_expression(int type, void *value);
 
 Symbol *evaluate_literal_expression(LiteralExpression *literal_expression);
 
-void print_literal_expression(LiteralExpression *literal_expression);
+void print_literal_expression(FILE *file, LiteralExpression *literal_expression);
 
 void destroy_literal_expression(LiteralExpression *literal_expression);
 

@@ -25,9 +25,8 @@ void execute_declaration_statement(DeclarationStatement *declaration_statement) 
 	append_symbol_to_symbol_table_stack(symbol_table_stack, symbol);
 }
 
-void print_declaration_statement(DeclarationStatement *declaration_statement, int indent_level) {
-	Symbol *symbol = declaration_statement->symbol;
-	print_symbol(symbol, indent_level);
+void print_declaration_statement(FILE *file, DeclarationStatement *declaration_statement) {
+
 }
 
 void destroy_declaration_statement(DeclarationStatement *declaration_statement) {

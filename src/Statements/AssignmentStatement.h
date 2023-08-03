@@ -16,7 +16,7 @@ AssignmentStatement *create_assignment_statement(SymbolTableStack **symbol_table
 
 void execute_assignment_statement(AssignmentStatement *assignment_statement);
 
-void print_assignment_statement(AssignmentStatement *assignment_statement, int indent_level);
+void print_assignment_statement(FILE *file, AssignmentStatement *assignment_statement);
 
 void destroy_assignment_statement(AssignmentStatement *assignment_statement);
 

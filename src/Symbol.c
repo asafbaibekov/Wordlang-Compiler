@@ -100,45 +100,12 @@ void print_symbol_value(Symbol *symbol) {
 	}
 }
 
-void print_symbol_list(Symbol *symbol, int indent_level) {
-	if (symbol == NULL) return;
-	print_symbol_list(symbol->next, indent_level);
-	print_symbol(symbol, indent_level);
+void print_symbol_list(FILE *file, Symbol *symbol) {
+
 }
 
-void print_symbol(Symbol *symbol, int indent_level) {
-	if (symbol == NULL) return;
-	
-	for (int i = 0; i < indent_level; i++)
-		printf("\t");
-	
-	switch (symbol->type) {
-		case TYPE_INT:		printf("int ");			break;
-		case TYPE_CHAR:		printf("char ");		break;
-		case TYPE_WORD:		printf("word ");		break;
-		case TYPE_SENTENCE:	printf("sentence ");	break;
-		default:			printf("no_type ");		break;
-	}
+void print_symbol(FILE *file, Symbol *symbol) {
 
-	if (symbol->name != NULL)
-		printf("%s", symbol->name);
-	else
-		printf("no_name");
-
-	printf(" = ");
-
-	
-	if (symbol->value == NULL)
-		printf("no_value");
-	else
-		switch (symbol->type) {
-			case TYPE_INT:		printf("%d", *(int *) symbol->value	);	break;
-			case TYPE_CHAR:		printf("%c", *(char *) symbol->value);	break;
-			case TYPE_WORD:		printf("%s",  (char *) symbol->value);	break;
-			case TYPE_SENTENCE:	printf("%s",  (char *) symbol->value);	break;
-			default:			printf("unknown"					);	break;
-		}
-	printf(";\n");
 }
 
 void destroy_symbol(Symbol *symbol) {

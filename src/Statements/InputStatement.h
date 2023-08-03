@@ -16,7 +16,7 @@ InputStatement *create_input_statement(SymbolTableStack **symbol_table_stack, ch
 
 void execute_input_statement(InputStatement *input_statement);
 
-void print_input_statement(InputStatement *input_statement, int indent_level);
+void print_input_statement(FILE *file, InputStatement *input_statement);
 
 void destroy_input_statement(InputStatement *input_statement);
 

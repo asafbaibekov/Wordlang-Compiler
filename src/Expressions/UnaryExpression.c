@@ -27,9 +27,8 @@ Symbol *evaluate_unary_expression(UnaryExpression *unary_expression) {
 	return result_symbol;
 }
 
-void print_unary_expression(UnaryExpression *unary_expression) {
-	printf("%s", getOperator(unary_expression->operator));
-	print_expression(unary_expression->expression);
+void print_unary_expression(FILE *file, UnaryExpression *unary_expression) {
+
 }
 
 void destroy_unary_expression(UnaryExpression *unary_expression) {

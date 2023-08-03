@@ -18,13 +18,8 @@ bool execute_if_statement(IfStatement *if_statement) {
 	return value;
 }
 
-void print_if_statement(IfStatement *if_statement, int indent_level) {
-	for (int i = 0; i < indent_level; i++)
-		printf("\t");
-	printf("if (");
-	print_expression(if_statement->expression);
-	printf(")\n");
-	print_statement(if_statement->statement, indent_level + 1);
+void print_if_statement(FILE *file, IfStatement *if_statement) {
+
 }
 
 void destroy_if_statement(IfStatement *if_statement) {

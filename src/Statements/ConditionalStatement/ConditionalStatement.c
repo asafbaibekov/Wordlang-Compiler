@@ -26,25 +26,12 @@ bool execute_conditional_statement_list(ConditionalStatement *conditional_statem
 	return execute_conditional_statement(conditional_statement_list);
 }
 
-void print_conditional_statement(ConditionalStatement *conditional_statement, int indent_level) {
-	ConditionalType type = conditional_statement->type;
-	switch (type) {
-		case IF_CONDITIONAL:
-			print_if_statement(conditional_statement->data, indent_level);
-			break;
-		case ELSE_CONDITIONAL:
-			print_else_statement(conditional_statement->data, indent_level);
-			break;
-		default:
-			break;
-	}
+void print_conditional_statement(FILE *file, ConditionalStatement *conditional_statement) {
+
 }
 
-void print_conditional_statement_list(ConditionalStatement *conditional_statement_list, int indent_level) {
-	ConditionalStatement *current_conditional_statement = conditional_statement_list;
-	if (conditional_statement_list == NULL) return;
-	print_conditional_statement_list(conditional_statement_list->next, indent_level);
-	print_conditional_statement(conditional_statement_list, indent_level);
+void print_conditional_statement_list(FILE *file, ConditionalStatement *conditional_statement_list) {
+
 }
 
 void destroy_conditional_statement(ConditionalStatement *conditional_statement) {

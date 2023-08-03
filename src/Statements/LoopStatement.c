@@ -20,13 +20,8 @@ void execute_loop_statement(LoopStatement *loop_statement) {
 		execute_statement_list(statement);
 }
 
-void print_loop_statement(LoopStatement *loop_statement, int indent_level) {
-	for (int i = 0; i < indent_level; i++)
-		printf("\t");
-	printf("while (");
-	print_expression(loop_statement->expression);
-	printf(")\n");
-	print_statement(loop_statement->statement, indent_level + 1);
+void print_loop_statement(FILE *file, LoopStatement *loop_statement) {
+
 }
 
 void destroy_loop_statement(LoopStatement *loop_statement) {

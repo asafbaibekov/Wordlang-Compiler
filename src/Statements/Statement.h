@@ -32,9 +32,9 @@ void execute_statement(Statement *statement);
 
 void execute_statement_list(Statement *statement_list);
 
-void print_statement(Statement *statement, int indent_level);
+void print_statement(FILE *file, Statement *statement);
 
-void print_statement_list(Statement *statement_list, int indent_level);
+void print_statement_list(FILE *file, Statement *statement_list);
 
 void destroy_statement(Statement *statement);
 

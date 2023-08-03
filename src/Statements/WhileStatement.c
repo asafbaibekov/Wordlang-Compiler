@@ -20,13 +20,8 @@ void execute_while_statement(WhileStatement *while_statement) {
 	}
 }
 
-void print_while_statement(WhileStatement *while_statement, int indent_level) {
-	for (int i = 0; i < indent_level; i++)
-		printf("\t");
-	printf("while (");
-	print_expression(while_statement->expression);
-	printf(")\n");
-	print_statement(while_statement->statement, indent_level + 1);
+void print_while_statement(FILE *file, WhileStatement *while_statement) {
+
 }
 
 void destroy_while_statement(WhileStatement *while_statement) {

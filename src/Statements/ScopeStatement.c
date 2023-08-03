@@ -15,10 +15,8 @@ void execute_scope_statement(ScopeStatement *scope_statement) {
 	pop_symbol_table_stack(symbol_table_stack);
 }
 
-void print_scope_statement(ScopeStatement *scope_statement, int indent_level) {
-	printf("{\n");
-	print_statement_list(scope_statement->statement_list, indent_level + 1);
-	printf("}\n");
+void print_scope_statement(FILE *file, ScopeStatement *scope_statement) {
+
 }
 
 void destroy_scope_statement(ScopeStatement *scope_statement) {

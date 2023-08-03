@@ -16,7 +16,7 @@ DeclarationStatement *create_declaration_statement(SymbolTableStack **symbol_tab
 
 void execute_declaration_statement(DeclarationStatement *declaration_statement);
 
-void print_declaration_statement(DeclarationStatement *declaration_statement, int indent_level);
+void print_declaration_statement(FILE *file, DeclarationStatement *declaration_statement);
 
 void destroy_declaration_statement(DeclarationStatement *declaration_statement);
 

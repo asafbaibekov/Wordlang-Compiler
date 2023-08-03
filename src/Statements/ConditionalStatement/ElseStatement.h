@@ -18,7 +18,7 @@ ElseStatement *create_else_statement(Statement *statement);
 
 bool execute_else_statement(ElseStatement *else_statement);
 
-void print_else_statement(ElseStatement *else_statement, int indent_level);
+void print_else_statement(FILE *file, ElseStatement *else_statement);
 
 void destroy_else_statement(ElseStatement *else_statement);
 

@@ -50,44 +50,12 @@ void execute_statement_list(Statement *statement_list) {
 	execute_statement(statement_list);
 }
 
-void print_statement(Statement *statement, int indent_level) {
-	if (statement == NULL) return;
-	for (int i = 0; i < indent_level; i++)
-		printf("\t");
-	switch (statement->type) {
-		case LOOP_STATEMENT:
-			print_loop_statement(statement->data, indent_level);
-			break;
-		case WHILE_STATEMENT:
-			print_while_statement(statement->data, indent_level);
-			break;
-		case CONDITIONAL_STATEMENT:
-			print_conditional_statement(statement->data, indent_level);
-			break;
-		case SCOPE_STATEMENT:
-			print_scope_statement(statement->data, indent_level);
-			break;
-		case DECLARATION_STATEMENT:
-			print_declaration_statement(statement->data, indent_level);
-			break;
-		case ASSIGNMENT_STATEMENT:
-			print_assignment_statement(statement->data, indent_level);
-			break;
-		case OUTPUT_STATEMENT:
-			print_output_statement(statement->data, indent_level);
-			break;
-		case INPUT_STATEMENT:
-			print_input_statement(statement->data, indent_level);
-			break;
-		default:
-			break;
-	}
+void print_statement(FILE *file, Statement *statement) {
+
 }
 
-void print_statement_list(Statement *statement_list, int indent_level) {
-	if (statement_list == NULL) return;
-	print_statement_list(statement_list->next, indent_level);
-	print_statement(statement_list, indent_level);
+void print_statement_list(FILE *file, Statement *statement_list) {
+
 }
 
 void destroy_statement(Statement *statement) {

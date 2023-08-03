@@ -11,9 +11,8 @@ bool execute_else_statement(ElseStatement *else_statement) {
 	return true;
 }
 
-void print_else_statement(ElseStatement *else_statement, int indent_level) {
-	printf("else\n");
-	print_statement(else_statement->statement, indent_level + 1);
+void print_else_statement(FILE *file, ElseStatement *else_statement) {
+
 }
 
 void destroy_else_statement(ElseStatement *else_statement) {

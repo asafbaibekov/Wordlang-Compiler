@@ -21,7 +21,7 @@ Expression *create_expression(ExpressionType type, void *data);
 
 Symbol *evaluate_expression(Expression *expression);
 
-void print_expression(Expression *expression);
+void print_expression(FILE *file, Expression *expression);
 
 void destroy_expression(Expression *expression);
 

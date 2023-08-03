@@ -30,9 +30,9 @@ bool get_symbol_value_as_bool(Symbol *symbol);
 
 void print_symbol_value(Symbol *symbol);
 
-void print_symbol_list(Symbol *symbol, int indent_level);
+void print_symbol_list(FILE *file, Symbol *symbol);
 
-void print_symbol(Symbol *symbol, int indent_level);
+void print_symbol(FILE *file, Symbol *symbol);
 
 void destroy_symbol(Symbol *symbol);
 

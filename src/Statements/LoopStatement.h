@@ -19,7 +19,7 @@ LoopStatement *create_loop_statement(Expression *expression, Statement *statemen
 
 void execute_loop_statement(LoopStatement *loop_statement);
 
-void print_loop_statement(LoopStatement *loop_statement, int indent_level);
+void print_loop_statement(FILE *file, LoopStatement *loop_statement);
 
 void destroy_loop_statement(LoopStatement *loop_statement);
 

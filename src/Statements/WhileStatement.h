@@ -19,7 +19,7 @@ WhileStatement *create_while_statement(Expression *expression, Statement *statem
 
 void execute_while_statement(WhileStatement *while_statement);
 
-void print_while_statement(WhileStatement *while_statement, int indent_level);
+void print_while_statement(FILE *file, WhileStatement *while_statement);
 
 void destroy_while_statement(WhileStatement *while_statement);
 

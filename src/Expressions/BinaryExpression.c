@@ -37,10 +37,8 @@ Symbol *evaluate_binary_expression(BinaryExpression *binary_expression) {
 	return result_symbol;
 }
 
-void print_binary_expression(BinaryExpression *binary_expression) {
-	print_expression(binary_expression->left);
-	printf(" %s ", getOperator(binary_expression->operator));
-	print_expression(binary_expression->right);
+void print_binary_expression(FILE *file, BinaryExpression *binary_expression) {
+	
 }
 
 void destroy_binary_expression(BinaryExpression *binary_expression) {

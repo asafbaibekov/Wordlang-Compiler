@@ -14,12 +14,8 @@ void execute_output_statement(OutputStatement *output_statement) {
 	printf("\n");
 }
 
-void print_output_statement(OutputStatement *output_statement, int indent_level) {
-	for (int i = 0; i < indent_level; i++)
-		printf("\t");
-	printf("output ");
-	print_expression(output_statement->expression);
-	printf(";\n");
+void print_output_statement(FILE *file, OutputStatement *output_statement) {
+
 }
 
 void destroy_output_statement(OutputStatement *output_statement) {
