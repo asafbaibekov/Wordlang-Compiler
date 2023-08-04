@@ -61,7 +61,7 @@ void execute_input_statement(InputStatement *input_statement) {
 			char *word = readline();
 			if (strchr(word, ' ') != NULL) {
 				free(word);
-				formatted_yyerror("Error: Word cannot contain space character");
+				formatted_yyerror("Word cannot contain space character");
 			}
 			symbol_in_table->value = word;
 			break;
