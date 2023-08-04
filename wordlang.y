@@ -154,8 +154,8 @@ conditional_statement:
 			ElseStatement *else_statement = create_else_statement($5);
 			ConditionalStatement *if_conditional_statement = create_conditional_statement(IF_CONDITIONAL, if_statement);
 			ConditionalStatement *else_conditional_statement = create_conditional_statement(ELSE_CONDITIONAL, else_statement);
-			else_conditional_statement->next = if_conditional_statement;
-			$$ = create_statement(CONDITIONAL_STATEMENT, else_conditional_statement);
+			ConditionalStatement *conditional_statement_list = create_conditional_statement_list(else_conditional_statement, if_conditional_statement);
+			$$ = create_statement(CONDITIONAL_STATEMENT, conditional_statement_list);
 		}
 	;
 

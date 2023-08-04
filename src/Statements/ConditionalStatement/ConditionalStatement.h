@@ -23,6 +23,8 @@ typedef struct ConditionalStatement {
 
 ConditionalStatement *create_conditional_statement(ConditionalType type, void *data);
 
+ConditionalStatement *create_conditional_statement_list(ConditionalStatement *conditional_statement_list, ConditionalStatement *conditional_statement);
+
 bool execute_conditional_statement(ConditionalStatement *conditional_statement);
 
 bool execute_conditional_statement_list(ConditionalStatement *conditional_statement_list);

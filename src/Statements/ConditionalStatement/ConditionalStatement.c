@@ -7,6 +7,11 @@ ConditionalStatement *create_conditional_statement(ConditionalType type, void *d
 	return conditional_statement;
 }
 
+ConditionalStatement *create_conditional_statement_list(ConditionalStatement *conditional_statement_list, ConditionalStatement *conditional_statement) {
+	conditional_statement_list->next = conditional_statement;
+	return conditional_statement_list;
+}
+
 bool execute_conditional_statement(ConditionalStatement *conditional_statement) {
 	ConditionalType type = conditional_statement->type;
 	switch (type) {
