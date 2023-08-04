@@ -20,7 +20,12 @@ void print_scope_statement(CompiledFile *compiled_file, ScopeStatement *scope_st
 	compiled_file_increase_indent(compiled_file);
 	write_indents_to_compiled_file(compiled_file);
 	compiled_file_println(compiled_file, "&symbol_table_stack,");
-	print_statement_list(compiled_file, scope_statement->statement_list);
+	if (scope_statement->statement_list != NULL)
+		print_statement_list(compiled_file, scope_statement->statement_list);
+	else {
+		write_indents_to_compiled_file(compiled_file);
+		compiled_file_print(compiled_file, "NULL");
+	}
 	compiled_file_println(compiled_file, "");
 	compiled_file_decrease_indent(compiled_file);
 	write_indents_to_compiled_file(compiled_file);
