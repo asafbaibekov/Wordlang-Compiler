@@ -16,17 +16,20 @@ YACC_OUTPUT_H = $(COMPILATION_FOLDER)y.tab.h
 SOURCE_FILES =	$(SOURCE_FOLDER)Symbol.c \
 				$(SOURCE_FOLDER)SymbolOperations.c \
 				$(SOURCE_FOLDER)SymbolTableStack.c \
+				$(SOURCE_FOLDER)Statements/StatementType.c \
 				$(SOURCE_FOLDER)Statements/AssignmentStatement.c \
 				$(SOURCE_FOLDER)Statements/DeclarationStatement.c \
 				$(SOURCE_FOLDER)Statements/InputStatement.c \
 				$(SOURCE_FOLDER)Statements/OutputStatement.c \
 				$(SOURCE_FOLDER)Statements/ScopeStatement.c \
+				$(SOURCE_FOLDER)Statements/ConditionalStatement/ConditionalType.c \
 				$(SOURCE_FOLDER)Statements/ConditionalStatement/IfStatement.c \
 				$(SOURCE_FOLDER)Statements/ConditionalStatement/ElseStatement.c \
 				$(SOURCE_FOLDER)Statements/ConditionalStatement/ConditionalStatement.c \
 				$(SOURCE_FOLDER)Statements/WhileStatement.c \
 				$(SOURCE_FOLDER)Statements/LoopStatement.c \
 				$(SOURCE_FOLDER)Statements/Statement.c \
+				$(SOURCE_FOLDER)Expressions/ExpressionType.c \
 				$(SOURCE_FOLDER)Expressions/LiteralExpression.c \
 				$(SOURCE_FOLDER)Expressions/IdentifierExpression.c \
 				$(SOURCE_FOLDER)Expressions/UnaryExpression.c \
