@@ -58,7 +58,18 @@ void execute_assignment_statement(AssignmentStatement *assignment_statement) {
 }
 
 void print_assignment_statement(CompiledFile *compiled_file, AssignmentStatement *assignment_statement) {
-
+	compiled_file_println(compiled_file, "create_assignment_statement(");
+	compiled_file_increase_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "&symbol_table_stack,");
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "\"%s\",", assignment_statement->identifier);
+	write_indents_to_compiled_file(compiled_file);
+	print_expression(compiled_file, assignment_statement->expression);
+	compiled_file_println(compiled_file, "");
+	compiled_file_decrease_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_print(compiled_file, ")");
 }
 
 void destroy_assignment_statement(AssignmentStatement *assignment_statement) {

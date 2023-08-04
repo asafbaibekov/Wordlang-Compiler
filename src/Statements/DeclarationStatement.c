@@ -26,7 +26,17 @@ void execute_declaration_statement(DeclarationStatement *declaration_statement) 
 }
 
 void print_declaration_statement(CompiledFile *compiled_file, DeclarationStatement *declaration_statement) {
-
+	compiled_file_println(compiled_file, "create_declaration_statement(");
+	compiled_file_increase_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "&symbol_table_stack,");
+	print_symbol(compiled_file, declaration_statement->symbol);
+	compiled_file_println(compiled_file, ",");
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "%s", get_symbol_type_as_string(declaration_statement->type));
+	compiled_file_decrease_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_print(compiled_file, ")");
 }
 
 void destroy_declaration_statement(DeclarationStatement *declaration_statement) {

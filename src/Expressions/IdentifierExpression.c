@@ -19,7 +19,16 @@ Symbol *evaluate_identifier_expression(IdentifierExpression *identifier_expressi
 }
 
 void print_identifier_expression(CompiledFile *compiled_file, IdentifierExpression *identifier_expression) {
-
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "create_identifier_expression(");
+	compiled_file_increase_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "&symbol_table_stack,");
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "\"%s\"", identifier_expression->name);
+	compiled_file_decrease_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_print(compiled_file, ")");
 }
 
 void destroy_identifier_expression(IdentifierExpression *identifier_expression) {

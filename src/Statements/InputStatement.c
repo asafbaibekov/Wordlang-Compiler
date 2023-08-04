@@ -78,7 +78,18 @@ void execute_input_statement(InputStatement *input_statement) {
 }
 
 void print_input_statement(CompiledFile *compiled_file, InputStatement *input_statement) {
-
+	compiled_file_println(compiled_file, "create_input_statement(");
+	compiled_file_increase_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "&symbol_table_stack,");
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "\"%s\",", input_statement->identifier);
+	write_indents_to_compiled_file(compiled_file);
+	print_expression(compiled_file, input_statement->expression);
+	compiled_file_println(compiled_file, "");
+	compiled_file_decrease_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_print(compiled_file, ")");
 }
 
 void destroy_input_statement(InputStatement *input_statement) {

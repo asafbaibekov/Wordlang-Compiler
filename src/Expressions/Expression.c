@@ -23,7 +23,28 @@ Symbol *evaluate_expression(Expression *expression) {
 }
 
 void print_expression(CompiledFile *compiled_file, Expression *expression) {
-
+	compiled_file_println(compiled_file, "create_expression(");
+	compiled_file_increase_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "%s,", get_expression_type_as_string(expression->type));
+	switch (expression->type) {
+		case LITERAL_EXPRESSION:
+			print_literal_expression(compiled_file, expression->data);
+			break;
+		case IDENTIFIER_EXPRESSION:
+			print_identifier_expression(compiled_file, expression->data);
+			break;
+		case UNARY_EXPRESSION:
+			print_unary_expression(compiled_file, expression->data);
+			break;
+		case BINARY_EXPRESSION:
+			print_binary_expression(compiled_file, expression->data);
+			break;
+	}
+	compiled_file_println(compiled_file, "");
+	compiled_file_decrease_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_print(compiled_file, ")");
 }
 
 void destroy_expression(Expression *expression) {

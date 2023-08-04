@@ -38,7 +38,35 @@ Symbol *evaluate_binary_expression(BinaryExpression *binary_expression) {
 }
 
 void print_binary_expression(CompiledFile *compiled_file, BinaryExpression *binary_expression) {
-
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "create_binary_expression(");
+	compiled_file_increase_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	print_expression(compiled_file, binary_expression->left);
+	compiled_file_println(compiled_file, ",");
+	write_indents_to_compiled_file(compiled_file);
+	char *operator = NULL;
+	switch (binary_expression->operator) {
+		case OPERATOR_MINUS:	operator = "OPERATOR_MINUS";	break;
+		case OPERATOR_PLUS:		operator = "OPERATOR_PLUS";		break;
+		case OPERATOR_CONCAT:	operator = "OPERATOR_CONCAT";	break;
+		case OPERATOR_INDEX:	operator = "OPERATOR_INDEX";	break;
+		case OPERATOR_LT:		operator = "OPERATOR_LT";		break;
+		case OPERATOR_GT:		operator = "OPERATOR_GT";		break;
+		case OPERATOR_LE:		operator = "OPERATOR_LE";		break;
+		case OPERATOR_GE:		operator = "OPERATOR_GE";		break;
+		case OPERATOR_EQ:		operator = "OPERATOR_EQ";		break;
+		case OPERATOR_NE:		operator = "OPERATOR_NE";		break;
+		default:				operator = "";					break;
+	}
+	compiled_file_print(compiled_file, operator);
+	compiled_file_println(compiled_file, ",");
+	write_indents_to_compiled_file(compiled_file);
+	print_expression(compiled_file, binary_expression->right);
+	compiled_file_println(compiled_file, "");
+	compiled_file_decrease_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_print(compiled_file, ")");
 }
 
 void destroy_binary_expression(BinaryExpression *binary_expression) {

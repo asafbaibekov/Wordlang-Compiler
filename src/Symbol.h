@@ -39,6 +39,14 @@ void destroy_symbol(Symbol *symbol);
 
 void destroy_symbol_list(Symbol *symbol);
 
+void *pointer_to_int(int value);
+
+void *pointer_to_char(char value);
+
+void *pointer_to_word(char *value);
+
+void *pointer_to_sentence(char *value);
+
 char *get_symbol_type_as_string(int type);
 
 #endif // SYMBOL_H

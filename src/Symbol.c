@@ -101,11 +101,29 @@ void print_symbol_value(Symbol *symbol) {
 }
 
 void print_symbol_list(CompiledFile *compiled_file, Symbol *symbol) {
-
+	if (symbol == NULL) return;
+	print_symbol_list(compiled_file, symbol->next);
+	print_symbol(compiled_file, symbol);
 }
 
 void print_symbol(CompiledFile *compiled_file, Symbol *symbol) {
-
+	if (symbol == NULL) return;
+	char *name = symbol->name;
+	char *type = get_symbol_type_as_string(symbol->type);
+	write_indents_to_compiled_file(compiled_file);
+	if (symbol->next == NULL) {
+		compiled_file_print(compiled_file, "create_symbol(\"%s\", %s, NULL)", name, type);
+		return;
+	}
+	compiled_file_println(compiled_file, "create_symbol_list(");
+	compiled_file_increase_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_println(compiled_file, "\"%s\", %s, NULL,", name, type);
+	print_symbol(compiled_file, symbol->next);
+	compiled_file_println(compiled_file, "");
+	compiled_file_decrease_indent(compiled_file);
+	write_indents_to_compiled_file(compiled_file);
+	compiled_file_print(compiled_file, ")");
 }
 
 void destroy_symbol(Symbol *symbol) {
@@ -119,6 +137,26 @@ void destroy_symbol_list(Symbol *symbol) {
 	if (symbol == NULL) return;
 	destroy_symbol_list(symbol->next);
 	destroy_symbol(symbol);
+}
+
+void *pointer_to_int(int value) {
+	int *integer = (int *) malloc(sizeof(int));
+	*integer = value;
+	return integer;
+}
+
+void *pointer_to_char(char value) {
+	char *character = (char *) malloc(sizeof(char));
+	*character = value;
+	return character;
+}
+
+void *pointer_to_word(char *value) {
+	return strdup(value);
+}
+
+void *pointer_to_sentence(char *value) {
+	return strdup(value);
 }
 
 char *get_symbol_type_as_string(int type) {
