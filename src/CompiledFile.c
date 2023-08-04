@@ -9,6 +9,20 @@ static void write_headers(CompiledFile *compiled_file) {
 	fprintf(compiled_file->file, "#include \"./src/SymbolTableStack.h\"\n");
 	fprintf(compiled_file->file, "#include \"./src/Statements/Statement.h\"\n");
 	fprintf(compiled_file->file, "#include \"./src/Expressions/Expression.h\"\n");
+	fprintf(compiled_file->file, "\n\n");
+	fprintf(compiled_file->file, "SymbolTableStack *symbol_table_stack = NULL;\n\n");
+	fprintf(compiled_file->file, "void formatted_yyerror(const char *format, ...) {\n");
+	fprintf(compiled_file->file, "\tva_list args;\n");
+	fprintf(compiled_file->file, "\tva_start(args, format);\n");
+	fprintf(compiled_file->file, "\tsize_t len = vsnprintf(NULL, 0, format, args);\n");
+	fprintf(compiled_file->file, "\tchar *msg = (char *) malloc((len + 1) * sizeof(char));\n");
+	fprintf(compiled_file->file, "\tvsprintf(msg, format, args);\n");
+	fprintf(compiled_file->file, "\tva_end(args);\n");
+	fprintf(compiled_file->file, "\tfprintf(stderr, \"Error: %%s\\n\", msg);\n");
+	fprintf(compiled_file->file, "\tdestroy_symbol_table_stack(&symbol_table_stack);\n");
+	fprintf(compiled_file->file, "\tfree(msg);\n");
+	fprintf(compiled_file->file, "\texit(1);\n");
+	fprintf(compiled_file->file, "}\n\n");
 }
 
 CompiledFile *create_compiled_file(char *path, char *filename) {
