@@ -51,41 +51,38 @@ void execute_statement_list(Statement *statement_list) {
 }
 
 void print_statement(CompiledFile *compiled_file, Statement *statement) {
-	if (statement == NULL) return;
+if (statement == NULL) return;
 	if (statement->next != NULL) {
 		compiled_file_println(compiled_file, "create_statement_list(");
 		compiled_file_increase_indent(compiled_file);
 		write_indents_to_compiled_file(compiled_file);
 	}
+	
 	compiled_file_println(compiled_file, "create_statement(");
 	compiled_file_increase_indent(compiled_file);
 	write_indents_to_compiled_file(compiled_file);
 	compiled_file_println(compiled_file, "%s,", get_statement_type_as_string(statement->type));
+	
 	switch (statement->type) {
 		case DECLARATION_STATEMENT:
 			write_indents_to_compiled_file(compiled_file);
 			print_declaration_statement(compiled_file, statement->data);
-			compiled_file_println(compiled_file, "");
 			break;
 		case ASSIGNMENT_STATEMENT:
 			write_indents_to_compiled_file(compiled_file);
 			print_assignment_statement(compiled_file, statement->data);
-			compiled_file_println(compiled_file, "");
 			break;
 		case OUTPUT_STATEMENT:
 			write_indents_to_compiled_file(compiled_file);
 			print_output_statement(compiled_file, statement->data);
-			compiled_file_println(compiled_file, "");
 			break;
 		case INPUT_STATEMENT:
 			write_indents_to_compiled_file(compiled_file);
 			print_input_statement(compiled_file, statement->data);
-			compiled_file_println(compiled_file, "");
 			break;
 		case SCOPE_STATEMENT:
 			write_indents_to_compiled_file(compiled_file);
 			print_scope_statement(compiled_file, statement->data);
-			compiled_file_println(compiled_file, "");
 			break;
 		case CONDITIONAL_STATEMENT:
 			print_conditional_statement_list(compiled_file, statement->data);
@@ -93,14 +90,13 @@ void print_statement(CompiledFile *compiled_file, Statement *statement) {
 		case WHILE_STATEMENT:
 			write_indents_to_compiled_file(compiled_file);
 			print_while_statement(compiled_file, statement->data);
-			compiled_file_println(compiled_file, "");
 			break;
 		case LOOP_STATEMENT:
 			write_indents_to_compiled_file(compiled_file);
 			print_loop_statement(compiled_file, statement->data);
-			compiled_file_println(compiled_file, "");
 			break;
 	}
+	compiled_file_println(compiled_file, "");
 	compiled_file_decrease_indent(compiled_file);
 	write_indents_to_compiled_file(compiled_file);
 	compiled_file_print(compiled_file, ")");
