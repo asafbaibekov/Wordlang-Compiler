@@ -97,7 +97,7 @@ void formatted_yyerror(const char *format, ...) {
 program:
 		/* Empty program */
 	|	statement_list {
-			execute_statement_list($1);
+			write_statement_list_to_compiled_file(compiled_file, $1);
 		}
 	;
 
