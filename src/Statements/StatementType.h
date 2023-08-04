@@ -12,4 +12,6 @@ typedef enum {
 	INPUT_STATEMENT
 } StatementType;
 
+char *get_statement_type_as_string(StatementType type);
+
 #endif // STATEMENT_TYPE_H

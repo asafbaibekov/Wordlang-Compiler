@@ -8,4 +8,6 @@ typedef enum ExpressionType {
 	BINARY_EXPRESSION
 } ExpressionType;
 
+char *get_expression_type_as_string(ExpressionType type);
+
 #endif // EXPRESSION_TYPE_H

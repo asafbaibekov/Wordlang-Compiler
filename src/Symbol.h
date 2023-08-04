@@ -38,4 +38,6 @@ void destroy_symbol(Symbol *symbol);
 
 void destroy_symbol_list(Symbol *symbol);
 
+char *get_symbol_type_as_string(int type);
+
 #endif // SYMBOL_H

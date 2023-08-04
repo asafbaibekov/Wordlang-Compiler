@@ -6,4 +6,6 @@ typedef enum ConditionalType {
 	ELSE_CONDITIONAL
 } ConditionalType;
 
+char *get_conditional_type_as_string(ConditionalType type);
+
 #endif // CONDITIONAL_TYPE_H

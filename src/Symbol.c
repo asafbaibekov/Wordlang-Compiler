@@ -120,3 +120,14 @@ void destroy_symbol_list(Symbol *symbol) {
 	destroy_symbol_list(symbol->next);
 	destroy_symbol(symbol);
 }
+
+char *get_symbol_type_as_string(int type) {
+	switch (type) {
+		case TYPE_INT:		return "TYPE_INT";
+		case TYPE_CHAR:		return "TYPE_CHAR";
+		case TYPE_WORD:		return "TYPE_WORD";
+		case TYPE_SENTENCE:	return "TYPE_SENTENCE";
+		case TYPE_BOOLEAN:	return "TYPE_BOOLEAN";
+		default:			return "0";
+	}
+}
