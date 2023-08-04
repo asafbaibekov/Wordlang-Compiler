@@ -100,11 +100,11 @@ void print_symbol_value(Symbol *symbol) {
 	}
 }
 
-void print_symbol_list(FILE *file, Symbol *symbol) {
+void print_symbol_list(CompiledFile *compiled_file, Symbol *symbol) {
 
 }
 
-void print_symbol(FILE *file, Symbol *symbol) {
+void print_symbol(CompiledFile *compiled_file, Symbol *symbol) {
 
 }
 

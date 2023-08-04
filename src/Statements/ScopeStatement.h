@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "../SymbolTableStack.h"
+#include "../CompiledFile.h"
 #include "Statement.h"
 
 typedef struct Statement Statement;
@@ -18,7 +19,7 @@ ScopeStatement *create_scope_statement(SymbolTableStack **symbol_table_stack, St
 
 void execute_scope_statement(ScopeStatement *scope_statement);
 
-void print_scope_statement(FILE *file, ScopeStatement *scope_statement);
+void print_scope_statement(CompiledFile *compiled_file, ScopeStatement *scope_statement);
 
 void destroy_scope_statement(ScopeStatement *scope_statement);
 

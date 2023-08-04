@@ -5,6 +5,7 @@
 #include "../../bin/y.tab.h"
 #include "../Symbol.h"
 #include "../SymbolOperations.h"
+#include "../CompiledFile.h"
 #include "Expression.h"
 
 typedef struct Expression Expression;
@@ -19,7 +20,7 @@ BinaryExpression *create_binary_expression(Expression *left, int operator, Expre
 
 Symbol *evaluate_binary_expression(BinaryExpression *binary_expression);
 
-void print_binary_expression(FILE *file, BinaryExpression *binary_expression);
+void print_binary_expression(CompiledFile *compiled_file, BinaryExpression *binary_expression);
 
 void destroy_binary_expression(BinaryExpression *binary_expression);
 

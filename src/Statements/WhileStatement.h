@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "../../wordlang.h"
 #include "../Symbol.h"
+#include "../CompiledFile.h"
 #include "Statement.h"
 #include "../Expressions/Expression.h"
 
@@ -19,7 +20,7 @@ WhileStatement *create_while_statement(Expression *expression, Statement *statem
 
 void execute_while_statement(WhileStatement *while_statement);
 
-void print_while_statement(FILE *file, WhileStatement *while_statement);
+void print_while_statement(CompiledFile *compiled_file, WhileStatement *while_statement);
 
 void destroy_while_statement(WhileStatement *while_statement);
 

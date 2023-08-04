@@ -18,8 +18,8 @@ Symbol *evaluate_identifier_expression(IdentifierExpression *identifier_expressi
 	return symbol;
 }
 
-void print_identifier_expression(FILE *file, IdentifierExpression *identifier_expression) {
-	
+void print_identifier_expression(CompiledFile *compiled_file, IdentifierExpression *identifier_expression) {
+
 }
 
 void destroy_identifier_expression(IdentifierExpression *identifier_expression) {

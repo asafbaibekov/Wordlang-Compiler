@@ -11,7 +11,7 @@ Symbol *evaluate_literal_expression(LiteralExpression *literal_expression) {
 	return create_symbol(NULL, literal_expression->type, literal_expression->value);
 }
 
-void print_literal_expression(FILE *file, LiteralExpression *literal_expression) {
+void print_literal_expression(CompiledFile *compiled_file, LiteralExpression *literal_expression) {
 
 }
 

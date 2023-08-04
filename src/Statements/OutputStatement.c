@@ -14,7 +14,7 @@ void execute_output_statement(OutputStatement *output_statement) {
 	printf("\n");
 }
 
-void print_output_statement(FILE *file, OutputStatement *output_statement) {
+void print_output_statement(CompiledFile *compiled_file, OutputStatement *output_statement) {
 
 }
 

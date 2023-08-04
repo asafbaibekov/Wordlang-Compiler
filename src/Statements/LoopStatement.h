@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "../../wordlang.h"
 #include "../Symbol.h"
+#include "../CompiledFile.h"
 #include "Statement.h"
 #include "../Expressions/Expression.h"
 
@@ -19,7 +20,7 @@ LoopStatement *create_loop_statement(Expression *expression, Statement *statemen
 
 void execute_loop_statement(LoopStatement *loop_statement);
 
-void print_loop_statement(FILE *file, LoopStatement *loop_statement);
+void print_loop_statement(CompiledFile *compiled_file, LoopStatement *loop_statement);
 
 void destroy_loop_statement(LoopStatement *loop_statement);
 

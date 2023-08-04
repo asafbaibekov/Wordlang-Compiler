@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "../Symbol.h"
+#include "../CompiledFile.h"
 #include "../SymbolTableStack.h"
 
 typedef struct IdentifierExpression {
@@ -14,7 +15,7 @@ IdentifierExpression *create_identifier_expression(SymbolTableStack **symbol_tab
 
 Symbol *evaluate_identifier_expression(IdentifierExpression *identifier_expression);
 
-void print_identifier_expression(FILE *file, IdentifierExpression *identifier_expression);
+void print_identifier_expression(CompiledFile *compiled_file, IdentifierExpression *identifier_expression);
 
 void destroy_identifier_expression(IdentifierExpression *identifier_expression);
 

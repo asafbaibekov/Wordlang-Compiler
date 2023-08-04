@@ -15,7 +15,7 @@ void execute_scope_statement(ScopeStatement *scope_statement) {
 	pop_symbol_table_stack(symbol_table_stack);
 }
 
-void print_scope_statement(FILE *file, ScopeStatement *scope_statement) {
+void print_scope_statement(CompiledFile *compiled_file, ScopeStatement *scope_statement) {
 
 }
 

@@ -20,7 +20,7 @@ void execute_loop_statement(LoopStatement *loop_statement) {
 		execute_statement_list(statement);
 }
 
-void print_loop_statement(FILE *file, LoopStatement *loop_statement) {
+void print_loop_statement(CompiledFile *compiled_file, LoopStatement *loop_statement) {
 
 }
 

@@ -18,7 +18,7 @@ ElseStatement *create_else_statement(Statement *statement);
 
 bool execute_else_statement(ElseStatement *else_statement);
 
-void print_else_statement(FILE *file, ElseStatement *else_statement);
+void print_else_statement(CompiledFile *compiled_file, ElseStatement *else_statement);
 
 void destroy_else_statement(ElseStatement *else_statement);
 

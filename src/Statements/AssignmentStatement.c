@@ -38,7 +38,7 @@ void execute_assignment_statement(AssignmentStatement *assignment_statement) {
 			assign_value_to_symbol(symbol_in_table, malloc(sizeof(int)));
 			*((int *) symbol_in_table->value) = *((int *) symbol->value);
 			break;
-		case TYPE_CHAR: 
+		case TYPE_CHAR:
 			assign_value_to_symbol(symbol_in_table, malloc(sizeof(char)));
 			*((char *) symbol_in_table->value) = *((char *) symbol->value);
 			break;
@@ -57,7 +57,7 @@ void execute_assignment_statement(AssignmentStatement *assignment_statement) {
 	}
 }
 
-void print_assignment_statement(FILE *file, AssignmentStatement *assignment_statement) {
+void print_assignment_statement(CompiledFile *compiled_file, AssignmentStatement *assignment_statement) {
 
 }
 

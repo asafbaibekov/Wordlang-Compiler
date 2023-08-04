@@ -16,6 +16,7 @@
 #include "OutputStatement.h"
 
 #include "../Symbol.h"
+#include "../CompiledFile.h"
 #include "../SymbolTableStack.h"
 
 typedef struct Statement {
@@ -32,9 +33,9 @@ void execute_statement(Statement *statement);
 
 void execute_statement_list(Statement *statement_list);
 
-void print_statement(FILE *file, Statement *statement);
+void print_statement(CompiledFile *compiled_file, Statement *statement);
 
-void print_statement_list(FILE *file, Statement *statement_list);
+void print_statement_list(CompiledFile *compiled_file, Statement *statement_list);
 
 void destroy_statement(Statement *statement);
 

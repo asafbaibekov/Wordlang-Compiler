@@ -11,7 +11,7 @@ bool execute_else_statement(ElseStatement *else_statement) {
 	return true;
 }
 
-void print_else_statement(FILE *file, ElseStatement *else_statement) {
+void print_else_statement(CompiledFile *compiled_file, ElseStatement *else_statement) {
 
 }
 

@@ -27,7 +27,7 @@ Symbol *evaluate_unary_expression(UnaryExpression *unary_expression) {
 	return result_symbol;
 }
 
-void print_unary_expression(FILE *file, UnaryExpression *unary_expression) {
+void print_unary_expression(CompiledFile *compiled_file, UnaryExpression *unary_expression) {
 
 }
 

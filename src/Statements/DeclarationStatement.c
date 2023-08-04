@@ -25,7 +25,7 @@ void execute_declaration_statement(DeclarationStatement *declaration_statement) 
 	append_symbol_to_symbol_table_stack(symbol_table_stack, symbol);
 }
 
-void print_declaration_statement(FILE *file, DeclarationStatement *declaration_statement) {
+void print_declaration_statement(CompiledFile *compiled_file, DeclarationStatement *declaration_statement) {
 
 }
 

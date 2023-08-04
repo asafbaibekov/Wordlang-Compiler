@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../Symbol.h"
+#include "../CompiledFile.h"
 
 #include "ExpressionType.h"
 
@@ -21,7 +22,7 @@ Expression *create_expression(ExpressionType type, void *data);
 
 Symbol *evaluate_expression(Expression *expression);
 
-void print_expression(FILE *file, Expression *expression);
+void print_expression(CompiledFile *compiled_file, Expression *expression);
 
 void destroy_expression(Expression *expression);
 

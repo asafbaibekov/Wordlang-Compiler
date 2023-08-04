@@ -31,11 +31,11 @@ bool execute_conditional_statement_list(ConditionalStatement *conditional_statem
 	return execute_conditional_statement(conditional_statement_list);
 }
 
-void print_conditional_statement(FILE *file, ConditionalStatement *conditional_statement) {
+void print_conditional_statement(CompiledFile *compiled_file, ConditionalStatement *conditional_statement) {
 
 }
 
-void print_conditional_statement_list(FILE *file, ConditionalStatement *conditional_statement_list) {
+void print_conditional_statement_list(CompiledFile *compiled_file, ConditionalStatement *conditional_statement_list) {
 
 }
 

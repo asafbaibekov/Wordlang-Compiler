@@ -77,7 +77,7 @@ void execute_input_statement(InputStatement *input_statement) {
 	}
 }
 
-void print_input_statement(FILE *file, InputStatement *input_statement) {
+void print_input_statement(CompiledFile *compiled_file, InputStatement *input_statement) {
 
 }
 

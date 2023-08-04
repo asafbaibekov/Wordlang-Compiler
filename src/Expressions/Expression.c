@@ -22,7 +22,7 @@ Symbol *evaluate_expression(Expression *expression) {
 	}
 }
 
-void print_expression(FILE *file, Expression *expression) {
+void print_expression(CompiledFile *compiled_file, Expression *expression) {
 
 }
 

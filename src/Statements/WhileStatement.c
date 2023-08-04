@@ -11,7 +11,7 @@ void execute_while_statement(WhileStatement *while_statement) {
 	Expression *expression = while_statement->expression;
 	Statement *statement = while_statement->statement;
 
-	Symbol *symbol = evaluate_expression(expression);	
+	Symbol *symbol = evaluate_expression(expression);
 	bool value = get_symbol_value_as_bool(symbol);
 	while (value) {
 		execute_statement_list(statement);
@@ -20,7 +20,7 @@ void execute_while_statement(WhileStatement *while_statement) {
 	}
 }
 
-void print_while_statement(FILE *file, WhileStatement *while_statement) {
+void print_while_statement(CompiledFile *compiled_file, WhileStatement *while_statement) {
 
 }
 

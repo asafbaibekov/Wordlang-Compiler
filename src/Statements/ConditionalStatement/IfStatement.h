@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "../../../wordlang.h"
 #include "../../Symbol.h"
+#include "../../CompiledFile.h"
 #include "../Statement.h"
 #include "../../Expressions/Expression.h"
 
@@ -19,7 +20,7 @@ IfStatement *create_if_statement(Expression *expression, Statement *statement);
 
 bool execute_if_statement(IfStatement *if_statement);
 
-void print_if_statement(FILE *file, IfStatement *if_statement);
+void print_if_statement(CompiledFile *compiled_file, IfStatement *if_statement);
 
 void destroy_if_statement(IfStatement *if_statement);
 

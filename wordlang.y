@@ -7,12 +7,14 @@
 #include "../src/SymbolTableStack.h"
 #include "../src/Statements/Statement.h"
 #include "../src/Expressions/Expression.h"
+#include "../src/CompiledFile.h"
 
 extern int yylex();
 
 extern FILE *yyin;
 
 SymbolTableStack *symbol_table_stack = NULL;
+CompiledFile *compiled_file = NULL;
 
 void yyerror(char *msg) {
 	fprintf(stderr, "Error: %s\n", msg);
@@ -348,6 +350,7 @@ var_list:
 
 
 int main(int argc, const char *argv[]) {
+	compiled_file = create_compiled_file("./", "main");
 	push_symbol_table_stack(&symbol_table_stack);
 	if (argc > 1) {
 		FILE *input_file = fopen(argv[1], "r");
@@ -356,5 +359,6 @@ int main(int argc, const char *argv[]) {
 	}
 	yyparse();
 	destroy_symbol_table_stack(&symbol_table_stack);
+	close_compiled_file(compiled_file);
 	return 0;
 }

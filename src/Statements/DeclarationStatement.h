@@ -5,6 +5,7 @@
 #include "../../bin/y.tab.h"
 #include "../SymbolTableStack.h"
 #include "../Symbol.h"
+#include "../CompiledFile.h"
 
 typedef struct DeclarationStatement {
 	SymbolTableStack **symbol_table_stack;
@@ -16,7 +17,7 @@ DeclarationStatement *create_declaration_statement(SymbolTableStack **symbol_tab
 
 void execute_declaration_statement(DeclarationStatement *declaration_statement);
 
-void print_declaration_statement(FILE *file, DeclarationStatement *declaration_statement);
+void print_declaration_statement(CompiledFile *compiled_file, DeclarationStatement *declaration_statement);
 
 void destroy_declaration_statement(DeclarationStatement *declaration_statement);
 

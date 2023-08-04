@@ -50,11 +50,11 @@ void execute_statement_list(Statement *statement_list) {
 	execute_statement(statement_list);
 }
 
-void print_statement(FILE *file, Statement *statement) {
+void print_statement(CompiledFile *compiled_file, Statement *statement) {
 
 }
 
-void print_statement_list(FILE *file, Statement *statement_list) {
+void print_statement_list(CompiledFile *compiled_file, Statement *statement_list) {
 
 }
 

@@ -18,7 +18,7 @@ bool execute_if_statement(IfStatement *if_statement) {
 	return value;
 }
 
-void print_if_statement(FILE *file, IfStatement *if_statement) {
+void print_if_statement(CompiledFile *compiled_file, IfStatement *if_statement) {
 
 }
 

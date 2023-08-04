@@ -31,7 +31,8 @@ SOURCE_FILES =	$(SOURCE_FOLDER)Symbol.c \
 				$(SOURCE_FOLDER)Expressions/IdentifierExpression.c \
 				$(SOURCE_FOLDER)Expressions/UnaryExpression.c \
 				$(SOURCE_FOLDER)Expressions/BinaryExpression.c \
-				$(SOURCE_FOLDER)Expressions/Expression.c
+				$(SOURCE_FOLDER)Expressions/Expression.c \
+				$(SOURCE_FOLDER)CompiledFile.c
 
 OBJECT_FILES = $(patsubst $(SOURCE_FOLDER)%.c,$(OBJECT_FOLDER)%.o,$(SOURCE_FILES))
 
