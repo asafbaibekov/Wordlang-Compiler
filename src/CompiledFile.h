@@ -16,8 +16,6 @@ typedef struct CompiledFile {
 
 typedef struct Statement Statement;
 
-Statement *reverse_statement_list(Statement *statement_list);
-
 void print_statement_list(CompiledFile *compiled_file, Statement *statement_list);
 
 CompiledFile *create_compiled_file(char *path, char *filename);
